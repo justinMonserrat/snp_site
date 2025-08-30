@@ -1,0 +1,42 @@
+.hero {
+    position: relative;
+    height: 70vh;
+    min-height: 520px;
+    overflow: hidden;
+  }
+  .heroImg {
+    object-fit: cover;
+  }
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 0 20px;
+    background: rgba(0,0,0,0.35);
+    color: #fff;
+  }
+  .overlay h1 {
+    font-size: clamp(28px, 5vw, 56px);
+    margin: 0 0 8px;
+  }
+  .overlay p {
+    margin: 0 0 20px;
+    font-size: clamp(14px, 2.1vw, 18px);
+  }
+  .cta {
+    display: inline-block;
+    padding: 10px 18px;
+    border: 1px solid #fff;
+    border-radius: 999px;
+  }
+  .grid {
+    max-width: 1100px;
+    margin: 48px auto;
+    padding: 0 20px;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  
