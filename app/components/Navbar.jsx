@@ -1,24 +1,57 @@
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import styles from "../styles/Navbar.module.css";
 
+const leftLinks = [
+  { href: "/", label: "Home" },
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/services", label: "Services" },
+];
+
+const rightLinks = [
+  { href: "/availability", label: "Calendar" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
 export default function Navbar() {
+  const pathname = usePathname();
+
+  const NavLinks = ({ items }) => (
+    <div className={styles.group}>
+      {items.map(({ href, label }) => {
+        const active = pathname === href;
+        return (
+          <Link key={href} href={href} className={`${styles.link} ${active ? styles.active : ""}`}>
+            {label}
+          </Link>
+        );
+      })}
+    </div>
+  );
+
   return (
     <header className={styles.nav}>
-      <nav className={styles.inner}>
-        <div className={styles.left}>
-          <Link href="/">Home</Link>
-          <Link href="/portfolio">Portfolio</Link>
-          <Link href="/services">Services</Link>
-        </div>
+      <div className={styles.inner}>
+        <NavLinks items={leftLinks} />
 
-        <Link href="/https://res.cloudinary.com/dtdff485o/image/upload/v1756588170/snp_logo_pxnsjg.png" className={styles.logo}></Link>
+        <Link href="/" className={styles.logoWrap} aria-label="Home">
+          { }
+          <Image
+            src="/images/snp_logo.png"
+            alt="Shea Nicole Photography"
+            width={240}
+            height={60}
+            className={styles.logo}
+            priority
+          />
+        </Link>
 
-        <div className={styles.right}>
-          <Link href="/availability">Calendar</Link>
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
-        </div>
-      </nav>
+        <NavLinks items={rightLinks} />
+      </div>
     </header>
   );
 }
