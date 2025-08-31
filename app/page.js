@@ -21,7 +21,7 @@ export default function HomePage() {
         <section className={styles.about}>
           {/* LEFT column: (mobile) title → image → button */}
           <div className={styles.aboutLeft}>
-            <h2 className={styles.titleLeft}>Hi, I'm Janine!</h2>
+            <h2 className={styles.titleLeft}>Hi, I&apos;m Janine!</h2>
 
             <div className={styles.aboutMedia}>
               <Image

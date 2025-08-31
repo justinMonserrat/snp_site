@@ -65,10 +65,3 @@
     opacity: 0.7;
     margin: 0;
   }
-  
-  /* Responsive tweaks */
-  @media (max-width: 600px) {
-    .links {
-    }
-  }
-  
