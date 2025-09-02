@@ -8,27 +8,15 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        {/* Logo */}
-        <div className={styles.brand}>
-          <Link href="/" aria-label="Home">
-            <Image
-              src="/images/snp_logo.png"
-              alt="Shea Nicole Photography"
-              width={180}
-              height={45}
-              className={styles.logo}
-              priority
-            />
-          </Link>
-        </div>
-
         {/* Nav links */}
-        <nav className={styles.links} aria-label="Footer Navigation">
+        <nav className={styles.linksTop} aria-label="Footer Navigation">
           <Link href="/">Home</Link>
-          <Link href="/portfolio">Portfolio</Link>
           <Link href="/services">Services</Link>
+          <Link href="/portfolio">Portfolio</Link>
+        </nav>
+        <nav className={styles.linksBottom} aria-label="Footer Navigation">
+        <Link href="/about">About</Link>
           <Link href="/availability">Calendar</Link>
-          <Link href="/about">About</Link>
           <Link href="/contact">Contact</Link>
         </nav>
 
@@ -40,7 +28,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             aria-label="Instagram"
           >
-            Instagram
+            <Image src="/images/instagram.png" alt="Instagram" width={40} height={40} />
           </a>
           <a
             href="https://facebook.com/sheanicolephotography"
@@ -48,7 +36,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             aria-label="Facebook"
           >
-            Facebook
+            <Image src="/images/facebook.png" alt="Facebook" width={40} height={40} />
           </a>
         </div>
 

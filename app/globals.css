@@ -1,13 +1,44 @@
+/* ==============================
+   Global Styles & Variables
+   ============================== */
+
+/* Brand Palette */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-green-dark: #3A5A40;
+  --color-green-sage: #A3B18A;
+  --color-red-rustic: #9E2A2B;
+  --color-red-rustic-dark: #561C18;
+  --color-brown-earth: #5E503F;
+  --color-beige-light: #F4F1ED;
+
+  /* Semantic Roles */
+  --bg-main: var(--color-beige-light);
+  --text-main: var(--color-brown-earth);
+  --text-muted: var(--color-green-dark);
+  --btn-primary: var(--color-red-rustic);
+  --btn-hover: var(--color-red-rustic-dark);
+  --link-color: var(--color-red-rustic);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    ----background: #ededed;
-    ---foreground: #0a0a0a;
-  }
+/* Nav Variables */
+:root {
+  --nav-bg: var(--bg-main);
+  --nav-ink: var(--text-main);
+  --nav-ink-muted: var(--text-muted);
+  --nav-accent: var(--text-main);
+  --nav-hover: var(--btn-hover);
+  --nav-border: rgba(0, 0, 0, 0.08);
+  --nav-backdrop: var(--color-green-dark);
+  --nav-drawer-bg: var(--bg-main);
+}
+
+/* Base Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html,
@@ -16,28 +47,29 @@ body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-}
-
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Ubuntu', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+/* Body Defaults */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
 }
 
+/* Links */
 a {
-  color: inherit;
+  color: var(--link-color);
   text-decoration: none;
 }
 
+a:hover {
+  color: var(--btn-hover);
+}
+
+/* Dark Mode (system preference) */
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

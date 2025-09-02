@@ -8,8 +8,8 @@ import styles from "../styles/Navbar.module.css";
 
 const leftLinks = [
   { href: "/", label: "Home" },
-  { href: "/portfolio", label: "Portfolio" },
   { href: "/services", label: "Services" },
+  { href: "/portfolio", label: "Portfolio" },
 ];
 
 const rightLinks = [
@@ -163,17 +163,22 @@ export default function Navbar() {
 
           {/* social links only for mobile drawer */}
           <div className={styles.socials}>
-            {socialLinks.map(({ href, label }) => (
-              <a
-                key={href}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.socialLink}
-              >
-                {label}
-              </a>
-            ))}
+          <a
+            href="https://instagram.com/shea_nicole_photography"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <Image src="/images/instagram.png" alt="Instagram" width={40} height={40} />
+          </a>
+          <a
+            href="https://facebook.com/sheanicolephotography"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+          >
+            <Image src="/images/facebook.png" alt="Facebook" width={40} height={40} />
+          </a>
           </div>
         </div>
       </nav>

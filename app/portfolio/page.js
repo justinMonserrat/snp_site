@@ -1,4 +1,4 @@
-export const metadata = { title: "Portfolio | SNP Photography" };
+
 
 export default function PortfolioPage() {
   return (

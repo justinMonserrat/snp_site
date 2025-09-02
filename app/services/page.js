@@ -1,4 +1,4 @@
-export const metadata = { title: "Services | SNP Photography" };
+
 
 export default function ServicesPage() {
   return (

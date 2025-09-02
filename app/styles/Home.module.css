@@ -1,128 +1,123 @@
+/* =======================================
+   Hero Section (consumes globals)
+   - No fixed height; image controls height
+   - Section-scoped vars for easy theming
+======================================= */
+
 .hero {
-  width: 100%;
-  /* no fixed height here; the image’s aspect ratio sets the height */
-  background: #f5f5f5;
+  /* Hooks mapped to globals (override per-hero if needed) */
+  --hero-ink: var(--bg-main);                    /* text on image */
+  --hero-cta-bg: var(--btn-primary);             /* primary button */
+  --hero-cta-hover: var(--btn-hover);            /* hover for CTA */
+  --hero-overlay: rgba(0, 0, 0, 0.38);           /* fallback shade */
+  position: relative;
+  color: var(--hero-ink);
+  overflow: hidden;
 }
 
-/* Make the image span the full width and compute height from its ratio */
+/* Wrapper that sizes exactly to the image */
+.heroImage {
+  position: relative;      /* overlay anchors to this box */
+  margin: 0 auto;
+  max-width: 2048px; 
+}
+
+/* The image itself (intrinsic, full width) */
 .heroImg {
-  display: block;  
-  width: 100%;
-  height: auto;
-}
-  
-/* Card */
-.about {
-  display: grid;
-  gap: 20px;
-  margin: 32px auto;
-  padding: 20px;
-  max-width: 1100px;
-  border: 1px solid #ddd;
-  border-radius: 16px;
-  background: #fff;
-}
-
-/* Desktop layout: image left (only image), text block right (title, p, button) */
-@media (min-width: 769px) {
-  .about {
-    grid-template-columns: minmax(220px, 40%) 1fr;
-    align-items: center;
-  }
-}
-
-/* Mobile layout: two equal columns */
-@media (max-width: 768px) {
-  .about {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
-}
-
-/* LEFT column */
-.aboutLeft {
-  display: grid;
-  grid-template-rows: auto auto auto; /* title, image, button (mobile) */
-  gap: 12px;
-}
-
-/* RIGHT column */
-.aboutRight {
-  display: grid;
-  grid-template-rows: auto 1fr auto;   /* title (desktop), paragraph, button (desktop) */
-  gap: 12px;
-  align-content: start;
-}
-
-/* Media / image */
-.aboutMedia { width: 100%; }
-.aboutPhoto {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 12px;
-  object-fit: cover; /* change to 'contain' if you want zero crop */
+  /* If you pass a fixed height from parent, you can switch to:
+     height: 64vh; object-fit: cover; */
 }
 
-/* Typography */
-.titleLeft,
-.titleRight {
-  font-family: cormorant-garamond, serif;
-  font-weight: 700;
-  font-size: clamp(1.4rem, 2vw + 0.8rem, 2.4rem);
-  color: #333D29;
-  margin: 0;
+/* Dark overlay that covers ONLY the image area */
+.shade {
+  position: absolute;
+  inset: 0;
+  /* Fallback */
+  background: var(--hero-overlay);
+  /* Subtle vertical gradient for legibility near center */
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.28) 35%,
+      rgba(0,0,0,0.38) 55%,
+      rgba(0,0,0,0.22) 100%
+    );
+  pointer-events: none;
 }
 
-.titleLeft {
+/* Text/CTA centered over the image area */
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   
+  align-items: center;       
   text-align: center;
+  gap: 20px;
+  padding: 0 20px;
 }
 
-.aboutRight p {
-  font-family: cormorant-garamond, serif;
-  font-size: clamp(0.98rem, 0.6vw + 0.85rem, 1.15rem);
-  line-height: 1.7;
+.heroOverlay h1 {
+  font-size: clamp(1.8rem, 6vw, 4rem);
   margin: 0;
-  color: #333;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.45); /* boost contrast on busy images */
+}
+
+.heroOverlay p {
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  max-width: 680px;
+  margin: 0;
+  line-height: 1.5;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.35);
 }
 
 /* CTAs */
-.ctaLeft,
-.ctaRight {
+.heroActions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.heroButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
-  background: #936639;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 10px;
-  font-family: cormorant-garamond, serif;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 1.05rem;
   font-weight: 700;
-  font-size: 1rem;
-  transition: background-color .2s ease, transform .08s ease-in-out;
-  width: 175px;
+  text-decoration: none;
+  background: var(--hero-cta-bg);
+  color: var(--bg-main);
+  border: 1px solid transparent;
+  transition: background-color .2s ease, transform .08s ease-in-out, color .2s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
 }
 
-.ctaLeft:hover, .ctaRight:hover { background: #724e30; }
-.ctaLeft:active, .ctaRight:active { transform: translateY(1px); }
-
-/* --- Visibility rules --- */
-/* Desktop: show RIGHT title/cta; hide LEFT title/cta so left is image-only */
-@media (min-width: 769px) {
-  .titleLeft, .ctaLeft { display: none; }
-  .titleRight, .ctaRight { display: inline-flex; } /* titleRight is block by default; fine either way */
+.heroButton:hover {
+  background: var(--hero-cta-hover);
+  color: var(--bg-main);
+  transform: translateY(-1px);
 }
 
-/* Mobile: show LEFT title/image/cta; hide RIGHT title/cta so right is paragraph only */
-@media (max-width: 768px) {
-  .titleRight, .ctaRight { display: none; }
-  .titleLeft, .ctaLeft { display: inline-flex; justify-self: center; } /* titleLeft becomes block naturally; OK to keep inline-flex for cta */
-  .titleLeft { display: block; } /* ensure heading is block element */
+.heroButton:focus-visible {
+  outline: 2px solid var(--hero-cta-hover);
+  outline-offset: 3px;
 }
 
-/* Tiny phones: if it gets too cramped, allow stacking */
-@media (max-width: 420px) {
-  .about { grid-template-columns: 1fr; }
-  .aboutRight { margin-top: 8px; }
+/* Mobile tweaks — keep text crisp and layout tidy */
+@media (max-width: 600px) {
+  .heroButton, .heroOverlay h1 { display: none; }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .heroButton { transition: none; }
 }

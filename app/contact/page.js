@@ -14,7 +14,7 @@ export default function ContactPage() {
   }
 
   return (
-    <main style={{maxWidth:1100, margin:"40px auto", padding:"0 20px"}}>
+    <main>
       <h1>Contact</h1>
       <form name="contact" onSubmit={onSubmit}>
         <input type="hidden" name="form-name" value="contact" />

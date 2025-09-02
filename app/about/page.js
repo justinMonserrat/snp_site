@@ -1,4 +1,3 @@
-export const metadata = { title: "About | SNP Photography" };
 
 export default function AboutPage() {
   return (

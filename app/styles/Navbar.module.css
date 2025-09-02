@@ -1,3 +1,4 @@
+
 /* =======================================
    Core Nav Bar
 ======================================= */
@@ -5,8 +6,8 @@
   position: sticky;
   top: 0;
   z-index: 1000; /* header sits below the overlay (which is 2000+) */
-  background: rgb(255, 255, 255);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
   transition: background .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 
@@ -39,15 +40,15 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 14px;
-  color: #333D29;
+  color: var(--nav-ink);
   text-decoration: none;
   position: relative;
   padding: 8px 2px;
   transition: opacity .2s ease, color .2s ease;
 }
-.link:hover { opacity: .7; }
+.link:hover { color: var(--nav-hover); opacity: .9; }
 .link:focus-visible {
-  outline: 2px solid #333D29;
+  outline: 2px solid var(--nav-hover);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -58,7 +59,7 @@
   position: absolute;
   left: 0; right: 0; bottom: -6px;
   height: 1px;
-  background: #333D29;
+  background: var(--nav-accent);
 }
 
 /* =======================================
@@ -81,6 +82,8 @@
   width: 44px;
   height: 44px;
   border: 0;
+  /* subtle tint from text color; falls back to neutral if unsupported */
+  background: color-mix(in srgb, var(--nav-ink) 8%, transparent);
   background: rgba(0, 0, 0, 0.05);
   border-radius: 12px;
   align-items: center;
@@ -90,14 +93,14 @@
   cursor: pointer;
 }
 .menuBtn:focus-visible {
-  outline: 2px solid #333D29;
+  outline: 2px solid var(--nav-hover);
   outline-offset: 3px;
   border-radius: 12px;
 }
 .menuBar {
   width: 20px;
   height: 2px;
-  background: #333D29;
+  background: var(--nav-ink);
   border-radius: 2px;
   display: block;
   transition: transform .2s ease, opacity .2s ease;
@@ -115,22 +118,22 @@
 .backdrop {
   position: fixed;
   top: 70px; left: 0; right: 0; bottom: 0;
-  background: #333D29;         /* brand tint for dim */
+  background: var(--nav-backdrop);   /* brand tint for dim */
   opacity: 0;
   pointer-events: none;
   transition: opacity .2s ease;
-  z-index: 1990;               /* under drawer, above content */
+  z-index: 1990;                     /* under drawer, above content */
 }
 .backdropOpen {
-  opacity: 0.28;               /* subtle dim */
+  opacity: 0.28;                     /* subtle dim */
   pointer-events: auto;
 }
 
 .drawer {
   position: fixed;
   top: 71px; left: 0; right: 0; bottom: 0;  /* fill viewport under header */
-  background: #ffffff;
-  z-index: 2000;               /* above header content area */
+  background: var(--nav-drawer-bg);
+  z-index: 2000;                     /* above header content area */
   display: none;
   transform: translateY(-6px);
   opacity: 0;
@@ -172,8 +175,10 @@
   font-size: 18px;
   letter-spacing: 0.1em;
   border-radius: 8px;
+  color: var(--nav-ink);
 }
-.drawer .active::after { bottom: -2px; height: 2px; }
+.drawer .link:hover { background: color-mix(in srgb, var(--nav-hover) 14%, transparent); }
+.drawer .active::after { bottom: -2px; height: 2px; background: var(--nav-accent); }
 
 /* =======================================
    Drawer Socials (mobile only)
@@ -183,15 +188,15 @@
   justify-content: center;
   gap: 20px;
   padding-top: 20px;
-  border-top: 1px solid rgba(0,0,0,0.08);
+  border-top: 1px solid var(--nav-border);
 }
 .socialLink {
   font-size: 16px;
-  color: #333D29;
+  color: var(--nav-ink);
   text-decoration: none;
-  transition: opacity .2s ease;
+  transition: opacity .2s ease, color .2s ease;
 }
-.socialLink:hover { opacity: 0.7; }
+.socialLink:hover { color: var(--nav-hover); opacity: 0.9; }
 
 /* =======================================
    Skip Link (a11y)
@@ -208,9 +213,9 @@
   top: 8px;
   width: auto; height: auto;
   padding: 8px 12px;
-  background: #fff;
-  color: #2b2b2b;
-  border: 1px solid rgba(0,0,0,0.15);
+  background: var(--nav-bg);
+  color: var(--nav-ink);
+  border: 1px solid var(--nav-border);
   border-radius: 8px;
   z-index: 2100;
 }

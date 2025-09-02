@@ -1,0 +1,183 @@
+/* =======================================
+   Services Preview (consumes global vars)
+   - Mobile: horizontal scroll with snap + edge arrows
+   - ≥720px: 3-column grid, arrows hidden
+   ======================================= */
+
+   .wrap {
+    --svc-ink: var(--text-main);
+    --svc-muted: var(--text-muted);
+    --svc-accent: var(--link-color);
+    --svc-cta: var(--color-red-rustic);
+    --svc-cta-hover: var(--btn-hover);
+    --svc-surface: #fff;
+    --svc-border: rgba(0, 0, 0, 0.08);
+    --svc-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  
+    /* keep vertical spacing, remove side padding so scroller can reach edges */
+    padding: 3rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Header (kept inside a comfortable gutter) */
+  .headerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1rem 1.25rem;
+  }
+  .headerRow h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--svc-ink);
+  }
+  .seeMore {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--svc-ink);
+    text-decoration: none;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+  .seeMore:hover {
+    color: var(--svc-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  
+  /* ====== Scroller (no glow/edge mask) ====== */
+  /* Pull to screen edges while keeping internal padding for arrows */
+  .scroller {
+    position: relative;
+    margin-inline: -1rem;   /* bleed to full-bleed on phones */
+    padding-inline: 1rem;   /* restores some breathing room inside */
+  }
+  
+  /* Mobile track: horizontal scroll + snap */
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    padding-inline: 7.5%;
+    scroll-padding-inline: 7.5%;
+  }
+  
+  /* Hide scrollbar visuals */
+  .grid::-webkit-scrollbar { height: 0; }
+  .grid { scrollbar-width: none; }
+  
+  /* Cards on mobile */
+  .card {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+    background: var(--svc-surface);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--svc-border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--svc-shadow); }
+  
+  .cardLink {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  /* Media window */
+  .figure { position: relative; width: 100%; height: 320px; }
+  .img { object-fit: cover; }
+  
+  /* Body */
+  .body {
+    padding: 1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .title { font-size: 1.2rem; font-weight: 700; margin: 0; color: var(--svc-ink); }
+  .blurb { font-size: 0.95rem; color: var(--svc-muted); line-height: 1.4; }
+  .price { margin-top: 0.2rem; font-weight: 700; color: var(--svc-ink); font-size: 1rem; }
+  
+  /* ====== Mobile edge arrows ====== */
+  .scrollBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,.18);
+    background: #fff;
+    color: #222;
+    font-size: 22px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    z-index: 2;
+  }
+  .left  { left: 6px; }
+  .right { right: 6px; }
+  .scrollBtn:active { transform: translateY(-50%) scale(0.98); }
+  
+  /* ====== CTAs ====== */
+  .ctaRow {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    padding: 0 1rem;
+  }
+  .cta, .secondary {
+    padding: 0.7rem 1.2rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid currentColor;
+    font-size: 0.95rem;
+  }
+  .cta {
+    background: var(--svc-cta);
+    border-color: transparent;
+    color: var(--bg-main);
+    transition: background-color .2s ease, transform .08s ease-in-out;
+  }
+  .cta:hover { background: var(--svc-cta-hover); transform: translateY(-1px); color: var(--bg-main); }
+  .secondary {
+    background: transparent; color: var(--svc-ink);
+    transition: background-color .2s ease, color .2s ease, transform .08s ease-in-out;
+  }
+  .secondary:hover {
+    background: rgba(0,0,0,0.04);
+    transform: translateY(-1px);
+  }
+  
+  /* ====== Tablets/Desktop ====== */
+  @media (min-width: 720px) {
+    .headerRow { margin: 0 0 1.25rem; }       /* align with grid container */
+    .scroller { margin-inline: 0; padding-inline: 0; } /* no bleed on wide screens */
+  
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+    .card { flex: initial; }
+    .figure { height: 480px; }
+    .scrollBtn { display: none; } /* hide arrows on larger screens */
+  }
+  
