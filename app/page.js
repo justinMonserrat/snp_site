@@ -23,7 +23,7 @@ export default function HomePage() {
 
             <div className={styles.heroOverlay}>
               <h1>Shea Nicole Photography</h1>
-              <p>Capturing your family's story across Rockwall, Texas.</p>
+              <p>Capturing your family&apos;s story across Rockwall, Texas.</p>
 
               <div className={styles.heroActions}>
                 <a href="/contact" className={styles.heroButton}>Book Now</a>
