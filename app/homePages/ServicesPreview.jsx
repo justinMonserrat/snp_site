@@ -48,9 +48,6 @@ export default function ServicesPreview() {
     <section className={styles.wrap} aria-labelledby="services-heading">
       <div className={styles.headerRow}>
         <h2 id="services-heading">Services</h2>
-        <Link href="/services" className={styles.seeMore} aria-label="See all services">
-          See all services →
-        </Link>
       </div>
 
       {/* Mobile: horizontally scrollable track (snap) / Desktop: 3-column grid */}

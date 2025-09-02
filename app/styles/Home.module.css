@@ -23,12 +23,18 @@
 }
 
 /* The image itself (intrinsic, full width) */
-.heroImg {
+.desktopHeroImg {
   display: block;
   width: 100%;
   height: auto;
   /* If you pass a fixed height from parent, you can switch to:
      height: 64vh; object-fit: cover; */
+}
+
+.mobileHeroImg {
+  display: none;
+  width: 100%;
+  height: auto;
 }
 
 /* Dark overlay that covers ONLY the image area */
@@ -114,7 +120,8 @@
 
 /* Mobile tweaks — keep text crisp and layout tidy */
 @media (max-width: 600px) {
-  .heroButton, .heroOverlay h1 { display: none; }
+  .mobileHeroImg { display: block; }
+  .desktopHeroImg { display: none; }
 }
 
 /* Reduced Motion */
