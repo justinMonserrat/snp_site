@@ -14,7 +14,7 @@ export default function AboutPreview() {
 
   <div className={styles.aboutMedia}>
     <Image
-      src="/images/snp_janine_about.jpg"
+      src="/images/home/snp_janine_about.jpg"
       alt="Janine"
       width={800}
       height={1000}

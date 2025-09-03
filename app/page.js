@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "./styles/Home.module.css";
 import ServicesPreview from "./homePages/ServicesPreview";
 import AboutPreview from "./homePages/AboutPreview";
+import PortfolioPreview from "./homePages/PortfolioPreview";
 
 export default function HomePage() {
   return (
@@ -12,7 +13,7 @@ export default function HomePage() {
           <div className={styles.heroImage}>
             {/* Desktop */}
             <Image
-              src="/images/snp_hero.JPG"
+              src="/images/home/snp_hero.JPG"
               alt="Happy family photography session"
               priority
               height={1024}
@@ -21,7 +22,7 @@ export default function HomePage() {
             />
             {/* Mobile */}
             <Image
-              src="/images/snp_hero_mobile.JPEG"
+              src="/images/home/snp_hero_mobile.JPEG"
               alt="Happy family photography session"
               priority
               height={512}
@@ -43,6 +44,7 @@ export default function HomePage() {
         </section>
 
         <ServicesPreview />
+        <PortfolioPreview />
         <AboutPreview />
       </main>
     </>

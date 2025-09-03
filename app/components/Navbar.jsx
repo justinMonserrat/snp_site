@@ -169,7 +169,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             aria-label="Instagram"
           >
-            <Image src="/images/instagram.png" alt="Instagram" width={40} height={40} />
+            <Image src="/images/icons/instagram.png" alt="Instagram" width={40} height={40} />
           </a>
           <a
             href="https://facebook.com/sheanicolephotography"
@@ -177,7 +177,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             aria-label="Facebook"
           >
-            <Image src="/images/facebook.png" alt="Facebook" width={40} height={40} />
+            <Image src="/images/icons/facebook.png" alt="Facebook" width={40} height={40} />
           </a>
           </div>
         </div>

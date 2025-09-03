@@ -14,13 +14,12 @@
     --svc-border: rgba(0, 0, 0, 0.08);
     --svc-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
   
-    /* keep vertical spacing, remove side padding so scroller can reach edges */
     padding: 3rem 0;
     max-width: 1200px;
     margin: 0 auto;
   }
   
-  /* Header (kept inside a comfortable gutter) */
+  /* Header */
   .headerRow {
     display: flex;
     align-items: center;
@@ -34,36 +33,38 @@
     color: var(--svc-ink);
     text-align: center;
   }
-  .active::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: -6px;
-    height: 1px;
-    background: var(--svc-accent);
-  }
   
-  /* ====== Scroller (no glow/edge mask) ====== */
-  /* Pull to screen edges while keeping internal padding for arrows */
+  /* ====== Scroller wrapper (anchor for arrows) ====== */
   .scroller {
     position: relative;
-    margin-inline: -1rem;   /* bleed to full-bleed on phones */
-    padding-inline: 1rem;   /* restores some breathing room inside */
+    margin-inline: 0;   /* no bleed; keeps track inside viewport */
+    padding-inline: 0;
   }
   
-  /* Mobile track: horizontal scroll + snap */
+  /* ====== Mobile track: horizontal scroll + snap ====== */
   .grid {
     list-style: none;
     margin: 0;
     padding: 0;
+  
     display: flex;
     gap: 1rem;
+    box-sizing: border-box;
+  
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  
     justify-content: flex-start;
+  
+    /* Center first/last 85%-width cards in the viewport */
     padding-inline: 7.5%;
     scroll-padding-inline: 7.5%;
+  
+    /* avoid tugging the page while swiping */
+    overscroll-behavior-x: contain;
   }
   
   /* Hide scrollbar visuals */
@@ -73,7 +74,9 @@
   /* Cards on mobile */
   .card {
     flex: 0 0 85%;
+    min-width: 0;                /* critical: prevents overflow from children */
     scroll-snap-align: center;
+  
     background: var(--svc-surface);
     border-radius: 16px;
     overflow: hidden;
@@ -107,6 +110,7 @@
   
   /* ====== Mobile edge arrows ====== */
   .scrollBtn {
+    display: none;               /* hidden by default; shown on mobile below */
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -118,7 +122,6 @@
     color: #222;
     font-size: 22px;
     line-height: 1;
-    display: grid;
     place-items: center;
     cursor: pointer;
     box-shadow: 0 6px 18px rgba(0,0,0,.08);
@@ -162,8 +165,8 @@
   
   /* ====== Tablets/Desktop ====== */
   @media (min-width: 720px) {
-    .headerRow { margin: 0 0 1.25rem; }       /* align with grid container */
-    .scroller { margin-inline: 0; padding-inline: 0; } /* no bleed on wide screens */
+    .headerRow { margin: 0 0 1.25rem; }
+    .scroller { margin-inline: 0; padding-inline: 0; }
   
     .grid {
       display: grid;
@@ -171,9 +174,18 @@
       gap: 1.25rem;
       overflow: visible;
       scroll-snap-type: none;
+      padding-inline: 0;          /* clear mobile centering padding */
     }
     .card { flex: initial; }
     .figure { height: 480px; }
+  
     .scrollBtn { display: none; } /* hide arrows on larger screens */
+  }
+  
+  /* ====== Mobile-only arrow visibility ====== */
+  @media (max-width: 719px) {
+    .scrollBtn { display: grid; }
+    /* Optional: add a small safe gutter while keeping centering math */
+    .grid { padding-inline: max(12px, 7.5%); }
   }
   

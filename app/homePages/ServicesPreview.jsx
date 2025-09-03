@@ -18,7 +18,7 @@ const items = [
     title: "Lifestyle",
     blurb: "30–90+ min • 12–20+ edited images",
     price: "$250-$350+",
-    img: "/images/snp_lifestyle.jpg",
+    img: "/images/home/snp_lifestyle.jpg",
     alt: "Parents holding newborn in park",
   },
   {
@@ -27,7 +27,7 @@ const items = [
     title: "Maternity",
     blurb: "30–90 min • 12–35+ edited images",
     price: "$250–$425",
-    img: "/images/snp_maternity.jpg",
+    img: "/images/home/snp_maternity.jpg",
     alt: "Sunlit maternity portrait",
   },
   {
@@ -36,7 +36,7 @@ const items = [
     title: "Cake Smash",
     blurb: "30–90 min • 8–30+ edited images",
     price: "$225–$350",
-    img: "/images/snp_cakesmash.jpg",
+    img: "/images/home/snp_cakesmash.jpg",
     alt: "Toddler at first birthday cake smash",
   },
 ];
