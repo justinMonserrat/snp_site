@@ -1,10 +1,17 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer";   
 
 export const metadata = {
   title: "Shea Nicole Photography",
-  description: "Portraits, events, and brand photography.",
+  description: "Photography for families from Rockwall, Texas to Dallas-Fort Worth.",
+  icons: {
+    icon: [
+      { url: "/images/icons/favicon.svg", type: "image/svg+xml" },
+      { url: "/images/icons/favicon_32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/images/icons/favicon_192.png",
+  },
 };
 
 export default function RootLayout({ children }) {
