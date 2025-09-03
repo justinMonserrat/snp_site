@@ -1,130 +1,142 @@
 /* =======================================
    Hero Section (consumes globals)
-   - No fixed height; image controls height
-   - Section-scoped vars for easy theming
-======================================= */
+   - Desktop: rotating cross-fade slideshow
+   - Mobile: single static hero image
+   ======================================= */
 
-.hero {
-  /* Hooks mapped to globals (override per-hero if needed) */
-  --hero-ink: var(--bg-main);                    /* text on image */
-  --hero-cta-bg: var(--btn-primary);             /* primary button */
-  --hero-cta-hover: var(--btn-hover);            /* hover for CTA */
-  --hero-overlay: rgba(0, 0, 0, 0.38);           /* fallback shade */
-  position: relative;
-  color: var(--hero-ink);
-  overflow: hidden;
+   .hero {
+    --hero-ink: var(--bg-main);
+    --hero-cta-bg: var(--btn-primary);
+    --hero-cta-hover: var(--btn-hover);
+    --hero-overlay: rgba(0, 0, 0, 0.38);
+  
+    position: relative;
+    color: var(--hero-ink);
+    overflow: hidden;
+  }
+  
+  /* Wrapper keeps layout stable (desktop hero ~2:1) */
+  .heroImage {
+    position: relative;
+    margin: 0 auto;
+    max-width: 2048px;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+  }
+  
+/* Slides: make fades longer/softer */
+.slide {
+  opacity: 0;
+  transform: scale(1.02);
+  transition:
+    opacity 1400ms ease-in-out,                 /* was 900ms */
+    transform 3200ms cubic-bezier(.22,.61,.36,1); /* was 2400ms */
+  z-index: 1; /* base */
 }
-
-/* Wrapper that sizes exactly to the image */
-.heroImage {
-  position: relative;      /* overlay anchors to this box */
-  margin: 0 auto;
-  max-width: 2048px; 
-}
-
-/* The image itself (intrinsic, full width) */
-.desktopHeroImg {
-  display: block;
-  width: 100%;
-  height: auto;
-  /* If you pass a fixed height from parent, you can switch to:
-     height: 64vh; object-fit: cover; */
-}
-
-.mobileHeroImg {
-  display: none;
-  width: 100%;
-  height: auto;
-}
-
-/* Dark overlay that covers ONLY the image area */
-.shade {
-  position: absolute;
-  inset: 0;
-  /* Fallback */
-  background: var(--hero-overlay);
-  /* Subtle vertical gradient for legibility near center */
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,0.15) 0%,
-      rgba(0,0,0,0.28) 35%,
-      rgba(0,0,0,0.38) 55%,
-      rgba(0,0,0,0.22) 100%
-    );
-  pointer-events: none;
-}
-
-/* Text/CTA centered over the image area */
-.heroOverlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;   
-  align-items: center;       
-  text-align: center;
-  gap: 20px;
-  padding: 0 20px;
-}
-
-.heroOverlay h1 {
-  font-size: clamp(1.8rem, 6vw, 4rem);
-  margin: 0;
-  letter-spacing: 0.02em;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.45); /* boost contrast on busy images */
-}
-
-.heroOverlay p {
-  font-size: clamp(1rem, 3vw, 1.3rem);
-  max-width: 680px;
-  margin: 0;
-  line-height: 1.5;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.35);
-}
-
-/* CTAs */
-.heroActions {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.heroButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 28px;
-  border-radius: 999px;
-  font-size: 1.05rem;
-  font-weight: 700;
-  text-decoration: none;
-  background: var(--hero-cta-bg);
-  color: var(--bg-main);
-  border: 1px solid transparent;
-  transition: background-color .2s ease, transform .08s ease-in-out, color .2s ease;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-}
-
-.heroButton:hover {
-  background: var(--hero-cta-hover);
-  color: var(--bg-main);
-  transform: translateY(-1px);
-}
-
-.heroButton:focus-visible {
-  outline: 2px solid var(--hero-cta-hover);
-  outline-offset: 3px;
-}
-
-/* Mobile tweaks — keep text crisp and layout tidy */
-@media (max-width: 600px) {
-  .mobileHeroImg { display: block; }
-  .desktopHeroImg { display: none; }
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .heroButton { transition: none; }
-}
+.isActive { opacity: 1; transform: scale(1); z-index: 2; }
+  
+  /* Mobile static hero image */
+  .mobileHeroImg {
+    display: none;
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Dark overlay for text legibility */
+  .shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.28) 35%,
+        rgba(0,0,0,0.38) 55%,
+        rgba(0,0,0,0.22) 100%
+      );
+    pointer-events: none;
+    z-index: 5;
+  }
+  
+  /* Text/CTA centered */
+  .heroOverlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 0 20px;
+    z-index: 10;
+  }
+  
+  .heroOverlay h1 {
+    font-size: clamp(1.8rem, 6vw, 4rem);
+    margin: 0;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.45);
+  }
+  
+  .heroOverlay p {
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    max-width: 680px;
+    margin: 0;
+    line-height: 1.5;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.35);
+  }
+  
+  /* CTAs */
+  .heroActions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .heroButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    background: var(--hero-cta-bg);
+    color: var(--bg-main);
+    border: 1px solid transparent;
+    transition:
+      background-color .2s ease,
+      transform .12s ease,
+      color .2s ease,
+      box-shadow .2s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  }
+  .heroButton:hover {
+    background: var(--hero-cta-hover);
+    color: var(--bg-main);
+    transform: translateY(-1px);
+  }
+  .heroButton:focus-visible {
+    outline: 2px solid var(--hero-cta-hover);
+    outline-offset: 3px;
+  }
+  
+  /* Mobile rules */
+  @media (max-width: 600px) {
+    .heroImage { aspect-ratio: auto; }
+    .mobileHeroImg { display: block; }
+    .slide { display: none; } /* hide desktop slideshow on mobile */
+  }
+  
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .slide {
+      transition: none;
+      transform: none;
+    }
+    .heroButton { transition: none; }
+  }
+  
