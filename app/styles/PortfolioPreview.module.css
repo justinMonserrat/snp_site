@@ -9,7 +9,7 @@
     --accent: var(--link-color);
     --surface: #fff;
   
-    padding: 3rem 0;
+    padding: 2rem 0;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -142,7 +142,7 @@
     font-weight: 700;
     text-decoration: none;
   }
-  .cta:hover { background: var(--btn-hover); color: var(--bg-main); border-color: var(--btn-hover); }
+  .cta:hover { background: var(--btn-hover); transform: translateY(-1px); color: var(--bg-main); }
   
   /* ====== Mobile fallback ====== */
   @media (max-width: 720px) {

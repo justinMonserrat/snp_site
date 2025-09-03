@@ -46,7 +46,6 @@ export default function PortfolioPreview() {
                   src={s.src}
                   alt={s.alt}
                   fill
-                  sizes="(max-width: 720px) 80vw, (max-width: 1024px) 33vw, 25vw"
                   className={styles.img}
                   priority={i < 3}
                 />

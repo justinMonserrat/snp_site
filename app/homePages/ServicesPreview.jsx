@@ -13,10 +13,19 @@ function useScroller() {
 
 const items = [
   {
-    slug: "lifestyle",
-    href: "/services/lifestyle",
-    title: "Lifestyle",
-    blurb: "30–90+ min • 12–20+ edited images",
+    slug: "mini",
+    href: "/services/mini",
+    title: "Mini-shoot",
+    blurb: "20 min • 8-12 edited images",
+    price: "$150-$200",
+    img: "/images/home/snp_mini.jpg",
+    alt: "Parents holding newborn in park",
+  },
+  {
+    slug: "family",
+    href: "/services/family",
+    title: "Family",
+    blurb: "30–90 min • 12–20+ edited images",
     price: "$250-$350+",
     img: "/images/home/snp_lifestyle.jpg",
     alt: "Parents holding newborn in park",
