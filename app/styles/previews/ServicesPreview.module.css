@@ -57,8 +57,6 @@
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
-
   justify-content: flex-start;
 
   /* Center first/last 85%-width cards in the viewport */
