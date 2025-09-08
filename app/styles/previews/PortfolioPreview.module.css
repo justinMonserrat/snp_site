@@ -194,7 +194,10 @@
     gap: 0.75rem;
     padding: 0 1rem;
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
   }
 
   .stage::-webkit-scrollbar {

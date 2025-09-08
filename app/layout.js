@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <Suspense fallback={null}>
+        <Suspense fallback={<div>Loading...</div>}>
           <Navbar />
         </Suspense>
         {children}
