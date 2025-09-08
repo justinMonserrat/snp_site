@@ -9,14 +9,11 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         {/* Nav links */}
-        <nav className={styles.linksTop} aria-label="Footer Navigation">
+        <nav className={styles.links} aria-label="Footer Navigation">
           <Link href="/">Home</Link>
           <Link href="/services">Services</Link>
           <Link href="/portfolio">Portfolio</Link>
-        </nav>
-        <nav className={styles.linksBottom} aria-label="Footer Navigation">
           <Link href="/about">About</Link>
-          <Link href="/availability">Calendar</Link>
           <Link href="/contact">Contact</Link>
         </nav>
 

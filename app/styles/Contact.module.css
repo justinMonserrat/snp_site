@@ -99,7 +99,7 @@
 .cta {
   display: inline-block;
   padding: 12px 16px;
-  border-radius: 12px;
+  border-radius: 999px;
   border: none;
   background: var(--btn-primary, #111);
   color: #fff;
@@ -123,20 +123,6 @@
   color: #c94141;
 }
 
-.ctaRow {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.secondary {
-  color: var(--link, #111);
-  text-decoration: none;
-}
-
-.secondary:hover {
-  text-decoration: underline;
-}
 
 /* Responsive harmony with ServicesPreview */
 @media (max-width: 768px) {

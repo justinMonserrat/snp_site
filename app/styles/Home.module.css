@@ -4,6 +4,14 @@
    - Mobile: single static hero image
    ======================================= */
 
+@font-face {
+  font-family: 'LoveScript';
+  src: url('/fonts/Love_script.ttf') format('truetype'),
+    url('/fonts/Love_script.otf') format('opentype');
+  font-weight: lighter;
+  font-style: normal;
+}
+
 .hero {
   --hero-ink: var(--bg-main);
   --hero-cta-bg: var(--btn-primary);
@@ -20,7 +28,7 @@
   position: relative;
   margin: 0 auto;
   max-width: 2048px;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 
@@ -68,7 +76,7 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  top: 32.5%;
   align-items: center;
   text-align: center;
   gap: 20px;
@@ -77,6 +85,7 @@
 }
 
 .heroOverlay h1 {
+  font-family: 'LoveScript', cursive;
   font-size: clamp(1.8rem, 6vw, 4rem);
   margin: 0;
   letter-spacing: 0.02em;
@@ -156,5 +165,11 @@
 
   .heroButton {
     transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .desktopOnly {
+    display: none;
   }
 }

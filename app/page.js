@@ -7,12 +7,10 @@ import styles from "./styles/Home.module.css";
 import ServicesPreview from "./homePages/ServicesPreview";
 import AboutPreview from "./homePages/AboutPreview";
 import PortfolioPreview from "./homePages/PortfolioPreview";
-import ContactPreview from "./homePages/ContactPreview";
+import ContactClient from "./contact/ContactClient";
 
 const heroImages = [
-  {
-    src: "/images/home/snp_hero1.jpg", alt: "Happy family at beach"
-  },
+  { src: "/images/home/snp_hero1.jpg", alt: "Happy family at beach" },
   { src: "/images/home/snp_hero2.jpg", alt: "Happy family walking on path" },
   { src: "/images/home/snp_hero3.jpg", alt: "Happy family walking on trail" },
   { src: "/images/home/snp_hero4.jpg", alt: "Happy couple maternity sunset" },
@@ -85,7 +83,7 @@ export default function HomePage() {
       <ServicesPreview />
       <PortfolioPreview />
       <AboutPreview />
-      <ContactPreview />
+      <ContactClient />
     </main>
   );
 }

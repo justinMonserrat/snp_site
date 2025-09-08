@@ -159,11 +159,33 @@ export default function ContactClient() {
         }
     }
 
+    function formatPhone(input) {
+        let digits = input.replace(/\D/g, "");
+
+        // Handle +1 prefix
+        if (digits.startsWith("1") && digits.length > 10) {
+            digits = digits.substring(1);
+        }
+
+        digits = digits.substring(0, 10);
+
+        if (digits.length > 6) {
+            return `(${digits.substring(0, 3)}) ${digits.substring(3, 6)}-${digits.substring(6)}`;
+        } else if (digits.length > 3) {
+            return `(${digits.substring(0, 3)}) ${digits.substring(3)}`;
+        } else if (digits.length > 0) {
+            return `(${digits}`;
+        }
+
+        return "";
+    }
+
+
     return (
         <section className={styles.wrap} aria-labelledby={`${uid}-heading`}>
             <div className={styles.headerRow}>
                 <h2 id={`${uid}-heading`}>Contact</h2>
-                <p className={styles.sub}>Questions, bookings, comments, or concerns.</p>
+                <p className={styles.sub}>Phone: <a href="tel:+16318043587">(631) 804-3587</a></p>
             </div>
 
             <form className={styles.form} onSubmit={onSubmit} noValidate>
@@ -192,7 +214,7 @@ export default function ContactClient() {
                         onChange={update}
                     >
                         {options.map((o) => (
-                            <option key={o.value || "general"} value={o.value}>
+                            <option className={styles.option} key={o.value || "general"} value={o.value}>
                                 {o.label}
                             </option>
                         ))}
@@ -208,6 +230,7 @@ export default function ContactClient() {
                         name="name"
                         type="text"
                         autoComplete="name"
+                        placeholder="First and Last"
                         required
                         maxLength={120}
                         value={form.name}
@@ -230,6 +253,7 @@ export default function ContactClient() {
                         name="email"
                         type="email"
                         autoComplete="email"
+                        placeholder="example@example.com"
                         required
                         value={form.email}
                         onChange={update}
@@ -244,7 +268,9 @@ export default function ContactClient() {
 
                 {/* Phone (optional) */}
                 <div className={styles.field}>
-                    <label className={styles.label} htmlFor={`${uid}-phone`}>Phone (optional)</label>
+                    <label className={styles.label} htmlFor={`${uid}-phone`}>
+                        Phone (optional)
+                    </label>
                     <input
                         id={`${uid}-phone`}
                         className={`${styles.input} ${touched.phone && errors.phone ? styles.inputError : ""}`}
@@ -252,15 +278,22 @@ export default function ContactClient() {
                         type="tel"
                         inputMode="tel"
                         autoComplete="tel"
-                        placeholder="(123) 456-7890"
+                        placeholder="(XXX) XXX-XXXX"
                         value={form.phone}
-                        onChange={update}
+                        onChange={(e) =>
+                            update({
+                                target: { name: "phone", value: formatPhone(e.target.value) },
+                            })
+                        }
                         onBlur={markTouched}
                         aria-invalid={!!(touched.phone && errors.phone)}
                         aria-describedby={touched.phone && errors.phone ? `${uid}-phone-help` : undefined}
                     />
+
                     {touched.phone && errors.phone && (
-                        <p id={`${uid}-phone-help`} className={styles.help}>{errors.phone}</p>
+                        <p id={`${uid}-phone-help`} className={styles.help}>
+                            {errors.phone}
+                        </p>
                     )}
                 </div>
 
@@ -271,6 +304,7 @@ export default function ContactClient() {
                         id={`${uid}-message`}
                         className={`${styles.textarea} ${touched.message && errors.message ? styles.inputError : ""}`}
                         name="message"
+                        placeholder="Enter your message here"
                         rows={6}
                         required
                         minLength={10}

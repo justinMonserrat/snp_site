@@ -15,24 +15,21 @@
 }
 
 /* Nav links */
-.linksTop,
-.linksBottom {
+.links {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 18px;
 }
 
-.linksTop a,
-.linksBottom a {
+.links a {
   color: var(--bg-main);
   text-decoration: none;
   font-size: 1.125rem;
   transition: opacity 0.2s ease, color 0.2s ease;
 }
 
-.linksTop a:hover,
-.linksBottom a:hover {
+.links a:hover {
   color: var(--color-jet-black);
   opacity: 0.9;
 }

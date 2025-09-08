@@ -13,10 +13,14 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import styles from "../styles/Navbar.module.css";
 
-const links = [
+const leftLinks = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/portfolio", label: "Portfolio" },
+];
+
+const rightLinks = [
+  { href: "/gallery", label: "Gallery" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -99,20 +103,24 @@ export default function Navbar() {
         <div className={styles.inner}>
           {/* Desktop: centered links only */}
           <nav className={`${styles.desktopOnly} ${styles.center}`} aria-label="Primary">
-            <NavLinks items={links} pathname={pathname} />
+            <NavLinks items={[...leftLinks]} pathname={pathname} />
           </nav>
 
-          {/* Mobile: logo (hidden on desktop via CSS) */}
+          {/* Logo */}
           <Link href="/" className={styles.logoWrap} aria-label="Home">
             <Image
-              src="/images/snp_logo.png"
+              src="/images/snp_logo.svg"
               alt="Shea Nicole Photography"
-              width={240}
-              height={60}
+              width={500}
+              height={500}
               className={styles.logo}
               priority
             />
           </Link>
+
+          <nav className={`${styles.desktopOnly} ${styles.center}`} aria-label="Primary">
+            <NavLinks items={[...rightLinks]} pathname={pathname} />
+          </nav>
 
           {/* Mobile menu button */}
           <button
@@ -145,7 +153,7 @@ export default function Navbar() {
         onKeyDown={onKeyDown}
       >
         <div className={styles.drawerContent}>
-          <NavLinks items={[...links]} pathname={pathname} onNavigate={closeMenu} />
+          <NavLinks items={[...leftLinks, ...rightLinks]} pathname={pathname} onNavigate={closeMenu} />
 
           {/* Social icons (mobile drawer) */}
           <div className={styles.socials}>

@@ -7,7 +7,7 @@ import ContactClient from "./ContactClient";
 
 // Optional, tweak as you like
 export const metadata = {
-  title: "Contact — Shea Nicole Photography",
+  title: "Contact | Shea Nicole Photography",
   description: "Questions, bookings, comments, or concerns.",
 };
 

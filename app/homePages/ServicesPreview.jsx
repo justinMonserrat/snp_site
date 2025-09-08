@@ -15,11 +15,11 @@ const items = [
   {
     slug: "mini",
     href: "/services/mini",
-    title: "Mini-shoot",
+    title: "Mini-session",
     blurb: "20 min • 8-12 edited images",
     price: "$150-$200",
     img: "/images/home/snp_mini.jpg",
-    alt: "Parents holding newborn in park",
+    alt: "Child hugging dog",
   },
   {
     slug: "family",
@@ -77,23 +77,21 @@ export default function ServicesPreview() {
         >
           {items.map((it) => (
             <li key={it.slug} className={styles.card}>
-              <Link href={it.href} className={styles.cardLink}>
-                <div className={styles.figure}>
-                  <Image
-                    src={it.img}
-                    alt={it.alt}
-                    fill
-                    sizes="(max-width: 720px) 85vw, (max-width: 1024px) 45vw, 33vw"
-                    className={styles.img}
-                    priority
-                  />
-                </div>
-                <div className={styles.body}>
-                  <h3 className={styles.title}>{it.title}</h3>
-                  <p className={styles.blurb}>{it.blurb}</p>
-                  <span className={styles.price}>{it.price}</span>
-                </div>
-              </Link>
+              <div className={styles.figure}>
+                <Image
+                  src={it.img}
+                  alt={it.alt}
+                  fill
+                  sizes="(max-width: 720px) 85vw, (max-width: 1024px) 45vw, 33vw"
+                  className={styles.img}
+                  priority
+                />
+              </div>
+              <div className={styles.body}>
+                <h3 className={styles.title}>{it.title}</h3>
+                <p className={styles.blurb}>{it.blurb}</p>
+                <span className={styles.price}>{it.price}</span>
+              </div>
             </li>
           ))}
         </ul>
