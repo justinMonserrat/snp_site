@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useMemo } from "react";
+import { Suspense } from "react";
+import HomeClient from "./HomeClient";
 import styles from "./styles/Home.module.css";
 import ServicesPreview from "./homePages/ServicesPreview";
 import AboutPreview from "./homePages/AboutPreview";
