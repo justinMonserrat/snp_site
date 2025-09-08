@@ -1,0 +1,184 @@
+/* =======================================
+   About Preview (consumes globals)
+   - Section-scoped vars on .about
+======================================= */
+
+/* Card */
+.about {
+  /* Hooks (override per page if needed) */
+  --about-surface: #fff;
+  /* card bg on beige page */
+  --about-border: rgba(0, 0, 0, 0.12);
+  --about-ink: var(--text-main);
+  /* headings, strong text */
+  --about-muted: var(--text-muted);
+  /* paragraph copy */
+  --about-cta: var(--btn-primary);
+  /* primary CTA bg */
+  --about-cta-hover: var(--btn-hover);
+  /* CTA hover bg */
+
+  display: grid;
+  gap: 20px;
+  padding: 2rem;
+  margin: 0 auto 2rem;
+  max-width: 1100px;
+  border: 1px solid var(--about-border);
+  border-radius: 16px;
+  background: var(--about-surface);
+}
+
+/* Desktop layout: image left (only image), text block right */
+@media (min-width: 769px) {
+  .about {
+    grid-template-columns: minmax(220px, 40%) 1fr;
+    align-items: center;
+  }
+}
+
+/* Mobile layout: two equal columns */
+@media (max-width: 768px) {
+  .about {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+/* LEFT column */
+.aboutLeft {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  /* title, image, button (mobile) */
+  gap: 12px;
+}
+
+/* RIGHT column */
+.aboutRight {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  /* title (desktop), paragraph, button */
+  gap: 12px;
+  align-content: start;
+}
+
+/* Media / image */
+.aboutMedia {
+  width: 100%;
+}
+
+.aboutPhoto {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  object-fit: cover;
+  /* change to 'contain' for zero crop if preferred */
+}
+
+/* Typography */
+.titleLeft,
+.titleRight {
+  font-family: cormorant-garamond, serif;
+  /* keep your display face */
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2vw + 0.8rem, 2.4rem);
+  color: var(--about-ink);
+  margin: 0;
+}
+
+.titleLeft {
+  text-align: center;
+}
+
+.aboutRight p {
+  font-family: cormorant-garamond, serif;
+  font-size: clamp(0.98rem, 0.6vw + 0.85rem, 1.15rem);
+  line-height: 1.7;
+  margin: 0;
+  padding-top: 15px;
+  color: var(--about-muted);
+}
+
+/* CTAs */
+.ctaLeft,
+.ctaRight {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  background: var(--about-cta);
+  color: var(--bg-main);
+  text-decoration: none;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background-color .2s ease, transform .08s ease-in-out, color .2s ease;
+  width: 175px;
+  border: 1px solid transparent;
+}
+
+.ctaLeft:hover,
+.ctaRight:hover {
+  background: var(--about-cta-hover);
+  transform: translateY(-1px);
+  color: var(--bg-main);
+}
+
+.ctaLeft:active,
+.ctaRight:active {
+  transform: translateY(0);
+}
+
+/* --- Visibility rules --- */
+/* Desktop: show RIGHT title/cta; hide LEFT title/cta so left is image-only */
+@media (min-width: 769px) {
+
+  .titleLeft,
+  .ctaLeft {
+    display: none;
+  }
+
+  .titleRight,
+  .ctaRight {
+    display: inline-flex;
+  }
+
+  /* titleRight okay as block too */
+}
+
+/* Mobile: show LEFT title/image/cta; hide RIGHT title/cta so right is paragraph only */
+@media (max-width: 768px) {
+
+  .titleRight,
+  .ctaRight {
+    display: none;
+  }
+
+  .titleLeft,
+  .ctaLeft {
+    display: inline-flex;
+    justify-self: center;
+    transform: scale(0.85);
+  }
+
+  .titleLeft {
+    transform: scale(1);
+  }
+
+  .titleLeft {
+    display: block;
+  }
+
+  /* ensure heading is block element */
+}
+
+/* Tiny phones: allow stacking */
+@media (max-width: 420px) {
+  .about {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutRight {
+    margin-top: 8px;
+  }
+}

@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef} from "react";
-import styles from "../styles/ServicesPreview.module.css";
+import { useRef } from "react";
+import styles from "../styles/previews/ServicesPreview.module.css";
 
 function useScroller() {
   const ref = useRef(null);

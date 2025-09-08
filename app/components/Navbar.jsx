@@ -1,19 +1,22 @@
 "use client";
 
+/**
+ * Navbar
+ * - Desktop (>=900px): centered links only (no logo)
+ * - Mobile (<900px): logo on the left, hamburger on the right, full-screen drawer
+ * - Accessibility: skip link, aria-current on active link, Esc to close drawer
+ */
+
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import styles from "../styles/Navbar.module.css";
 
-const leftLinks = [
+const links = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/portfolio", label: "Portfolio" },
-];
-
-const rightLinks = [
-  { href: "/availability", label: "Calendar" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -49,10 +52,10 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // close menu on route change
+  // Close menu on route change
   useEffect(() => { setOpen(false); }, [pathname]);
 
-  // scrolled state for style
+  // Scrolled state for styling
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     onScroll();
@@ -60,16 +63,14 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock page scroll when menu is open (html + body)
+  // Lock page scroll when drawer is open
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
 
     if (open) {
-      // prevent background scroll on all engines
       html.style.overflow = "hidden";
       body.style.overflow = "hidden";
-      // optional: avoid layout shift when hiding scrollbar (desktop)
       const scrollBarW = window.innerWidth - html.clientWidth;
       if (scrollBarW > 0) html.style.paddingRight = `${scrollBarW}px`;
     } else {
@@ -85,14 +86,9 @@ export default function Navbar() {
     };
   }, [open]);
 
-  const toggle = useCallback(() => setOpen(p => !p), []);
+  const toggle = useCallback(() => setOpen((p) => !p), []);
   const closeMenu = useCallback(() => setOpen(false), []);
   const onKeyDown = useCallback((e) => { if (e.key === "Escape") setOpen(false); }, []);
-
-  const socialLinks = [
-    { href: "https://instagram.com/shea_nicole_photography", label: "Instagram" },
-    { href: "https://facebook.com/sheanicolephotography", label: "Facebook" },
-  ];
 
   return (
     <>
@@ -101,12 +97,12 @@ export default function Navbar() {
 
       <header className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
         <div className={styles.inner}>
-          {/* Desktop: left links */}
-          <nav className={`${styles.desktopOnly} ${styles.left}`} aria-label="Primary (left)">
-            <NavLinks items={leftLinks} pathname={pathname} />
+          {/* Desktop: centered links only */}
+          <nav className={`${styles.desktopOnly} ${styles.center}`} aria-label="Primary">
+            <NavLinks items={links} pathname={pathname} />
           </nav>
 
-          {/* Logo (center desktop; left on mobile via CSS) */}
+          {/* Mobile: logo (hidden on desktop via CSS) */}
           <Link href="/" className={styles.logoWrap} aria-label="Home">
             <Image
               src="/images/snp_logo.png"
@@ -117,11 +113,6 @@ export default function Navbar() {
               priority
             />
           </Link>
-
-          {/* Desktop: right links */}
-          <nav className={`${styles.desktopOnly} ${styles.right}`} aria-label="Primary (right)">
-            <NavLinks items={rightLinks} pathname={pathname} />
-          </nav>
 
           {/* Mobile menu button */}
           <button
@@ -139,7 +130,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Backdrop & Drawer live OUTSIDE header so they can overlay everything */}
+      {/* Backdrop & Drawer overlay */}
       <div
         className={`${styles.backdrop} ${open ? styles.backdropOpen : ""}`}
         onClick={closeMenu}
@@ -154,31 +145,26 @@ export default function Navbar() {
         onKeyDown={onKeyDown}
       >
         <div className={styles.drawerContent}>
-          {/* main links stacked */}
-          <NavLinks
-            items={[...leftLinks, ...rightLinks]}
-            pathname={pathname}
-            onNavigate={closeMenu}
-          />
+          <NavLinks items={[...links]} pathname={pathname} onNavigate={closeMenu} />
 
-          {/* social links only for mobile drawer */}
+          {/* Social icons (mobile drawer) */}
           <div className={styles.socials}>
-          <a
-            href="https://instagram.com/shea_nicole_photography"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-          >
-            <Image src="/images/icons/instagram.png" alt="Instagram" width={40} height={40} />
-          </a>
-          <a
-            href="https://facebook.com/sheanicolephotography"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-          >
-            <Image src="/images/icons/facebook.png" alt="Facebook" width={40} height={40} />
-          </a>
+            <a
+              href="https://instagram.com/shea_nicole_photography"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <Image src="/images/icons/instagram.png" alt="Instagram" width={40} height={40} />
+            </a>
+            <a
+              href="https://facebook.com/sheanicolephotography"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+            >
+              <Image src="/images/icons/facebook.png" alt="Facebook" width={40} height={40} />
+            </a>
           </div>
         </div>
       </nav>

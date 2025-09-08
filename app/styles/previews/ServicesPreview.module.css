@@ -1,0 +1,269 @@
+/* =======================================
+   Services Preview (consumes global vars)
+   - Mobile: horizontal scroll with snap + edge arrows
+   - ≥720px: 3-column grid, arrows hidden
+   ======================================= */
+
+.wrap {
+  --svc-ink: var(--text-main);
+  --svc-muted: var(--text-muted);
+  --svc-accent: var(--link-color);
+  --svc-cta: var(--color-jet-black);
+  --svc-cta-hover: var(--btn-hover);
+  --svc-surface: #fff;
+  --svc-border: rgba(0, 0, 0, 0.08);
+  --svc-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+
+  padding: 2rem 0 0 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem 1.125rem;
+}
+
+.headerRow h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--svc-ink);
+  text-align: center;
+}
+
+/* ====== Scroller wrapper (anchor for arrows) ====== */
+.scroller {
+  position: relative;
+  margin-inline: 0;
+  /* no bleed; keeps track inside viewport */
+  padding-inline: 0;
+}
+
+/* ====== Mobile track: horizontal scroll + snap ====== */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  gap: 1rem;
+  box-sizing: border-box;
+
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+
+  justify-content: flex-start;
+
+  /* Center first/last 85%-width cards in the viewport */
+  padding-inline: 7.5%;
+  scroll-padding-inline: 7.5%;
+
+  /* avoid tugging the page while swiping */
+  overscroll-behavior-x: contain;
+}
+
+/* Hide scrollbar visuals */
+.grid::-webkit-scrollbar {
+  height: 0;
+}
+
+.grid {
+  scrollbar-width: none;
+}
+
+/* Cards on mobile */
+.card {
+  flex: 0 0 85%;
+  min-width: 0;
+  /* critical: prevents overflow from children */
+  scroll-snap-align: center;
+
+  background: var(--svc-surface);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--svc-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardLink {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Media window */
+.figure {
+  position: relative;
+  width: 100%;
+  height: 380px;
+}
+
+.img {
+  object-fit: cover;
+}
+
+/* Body */
+.body {
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--svc-ink);
+}
+
+.blurb {
+  font-size: 1rem;
+  color: var(--svc-muted);
+  line-height: 1.4;
+}
+
+.price {
+  margin-top: 0.2rem;
+  font-weight: 700;
+  color: var(--svc-ink);
+  font-size: 1rem;
+}
+
+/* ====== Mobile edge arrows ====== */
+.scrollBtn {
+  display: none;
+  /* hidden by default; shown on mobile below */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, .18);
+  background: #fff;
+  color: #222;
+  font-size: 22px;
+  line-height: 1;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+  z-index: 2;
+}
+
+.left {
+  left: 6px;
+}
+
+.right {
+  right: 6px;
+}
+
+.scrollBtn:active {
+  transform: translateY(-50%) scale(.98);
+}
+
+/* ====== CTAs ====== */
+.ctaRow {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 0 1rem;
+}
+
+.cta,
+.secondary {
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid currentColor;
+  font-size: 0.95rem;
+}
+
+.cta {
+  background: var(--svc-cta);
+  border-color: transparent;
+  color: var(--bg-main);
+  transition: background-color .2s ease, transform .08s ease-in-out;
+}
+
+.cta:hover {
+  background: var(--svc-cta-hover);
+  transform: translateY(-1px);
+  color: var(--bg-main);
+}
+
+.secondary {
+  background: transparent;
+  color: var(--svc-ink);
+  transition: background-color .2s ease, color .2s ease, transform .08s ease-in-out;
+}
+
+.secondary:hover {
+  background: rgba(0, 0, 0, 0.04);
+  transform: translateY(-1px);
+}
+
+/* ====== Tablets/Desktop ====== */
+@media (min-width: 720px) {
+  .headerRow {
+    margin: 0 0 1.25rem;
+  }
+
+  .scroller {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    overflow: visible;
+    scroll-snap-type: none;
+    padding-inline: 0;
+    /* clear mobile centering padding */
+  }
+
+  .card {
+    flex: initial;
+  }
+
+  .figure {
+    height: 420px;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--svc-shadow);
+  }
+
+  .scrollBtn {
+    display: none;
+  }
+
+  /* hide arrows on larger screens */
+}
+
+/* ====== Mobile-only arrow visibility ====== */
+@media (max-width: 719px) {
+  .scrollBtn {
+    display: grid;
+  }
+
+  /* Optional: add a small safe gutter while keeping centering math */
+  .grid {
+    padding-inline: max(12px, 7.5%);
+  }
+}

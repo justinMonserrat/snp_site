@@ -15,21 +15,24 @@
 }
 
 /* Nav links */
-.linksTop, .linksBottom {
+.linksTop,
+.linksBottom {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 18px;
 }
 
-.linksTop a, .linksBottom a {
+.linksTop a,
+.linksBottom a {
   color: var(--bg-main);
   text-decoration: none;
   font-size: 1.125rem;
   transition: opacity 0.2s ease, color 0.2s ease;
 }
 
-.linksTop a:hover, .linksBottom a:hover {
+.linksTop a:hover,
+.linksBottom a:hover {
   color: var(--color-jet-black);
   opacity: 0.9;
 }
@@ -37,7 +40,8 @@
 /* Social links */
 .socials {
   display: flex;
-  gap: 20px;          /* space between icons */
+  gap: 20px;
+  /* space between icons */
   align-items: center;
 }
 
@@ -51,11 +55,13 @@
 
 /* Icon image */
 .socials img {
-  display: block; /* remove inline gap */
+  display: block;
+  /* remove inline gap */
 }
 
 .socials a:hover {
-  background-color: var(--bg-main); /* white/beige circle on hover */
+  background-color: var(--bg-main);
+  /* white/beige circle on hover */
   color: var(--text-main);
   opacity: 0.85;
 }
