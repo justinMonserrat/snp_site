@@ -1,10 +1,15 @@
 "use client";
 
+/**
+ * Home page (client)
+ * - Keeps hero slideshow logic on the client (window, useEffect).
+ * - Wraps ContactClient in <Suspense> so its useSearchParams() won't trip SSG.
+ * - Removes unused HomeClient import.
+ */
+
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState, useMemo } from "react";
-import { Suspense } from "react";
-import HomeClient from "./HomeClient";
+import { useEffect, useState, useMemo, Suspense } from "react";
 import styles from "./styles/Home.module.css";
 import ServicesPreview from "./homePages/ServicesPreview";
 import AboutPreview from "./homePages/AboutPreview";
@@ -85,7 +90,11 @@ export default function HomePage() {
       <ServicesPreview />
       <PortfolioPreview />
       <AboutPreview />
-      <ContactClient />
+
+      {/* IMPORTANT: wrap the client form that uses useSearchParams */}
+      <Suspense fallback={null}>
+        <ContactClient />
+      </Suspense>
     </main>
   );
 }
