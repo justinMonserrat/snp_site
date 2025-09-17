@@ -1,117 +1,84 @@
+// app/homePages/ServicesPreview.jsx
 "use client";
+
+/**
+ * ServicesPreview (Home)
+ * - 5-up row on desktop, responsive down to mobile
+ * - Card = image, title, concise meta (duration • edited images), price
+ * - No per-card buttons; section footer buttons only
+ * - Data source: /lib/services.js
+ */
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
 import styles from "../styles/previews/ServicesPreview.module.css";
+import { services } from "../../lib/services";
 
-function useScroller() {
-  const ref = useRef(null);
-  const scrollBy = (dx) => ref.current && ref.current.scrollBy({ left: dx, behavior: "smooth" });
-  return [ref, scrollBy];
+/** Return the first deliverables line that mentions edited images, if any. */
+function editedImagesSummary(deliverables) {
+  if (!Array.isArray(deliverables)) return null;
+  return deliverables.find((d) => /edited images/i.test(d)) || null;
 }
 
-const items = [
-  {
-    slug: "mini",
-    href: "/services/mini",
-    title: "Mini-session",
-    blurb: "20 min • 8-12 edited images",
-    price: "$150-$200",
-    img: "/images/home/snp_mini.jpg",
-    alt: "Child hugging dog",
-  },
-  {
-    slug: "family",
-    href: "/services/family",
-    title: "Family",
-    blurb: "30–90 min • 12–20+ edited images",
-    price: "$250-$350+",
-    img: "/images/home/snp_lifestyle.jpg",
-    alt: "Parents holding newborn in park",
-  },
-  {
-    slug: "maternity",
-    href: "/services/maternity",
-    title: "Maternity",
-    blurb: "30–90 min • 12–35+ edited images",
-    price: "$250–$425",
-    img: "/images/home/snp_maternity.jpg",
-    alt: "Sunlit maternity portrait",
-  },
-  {
-    slug: "cake-smash",
-    href: "/services/cake-smash",
-    title: "Cake Smash",
-    blurb: "30–90 min • 8–30+ edited images",
-    price: "$225–$350",
-    img: "/images/home/snp_cakesmash.jpg",
-    alt: "Toddler at first birthday cake smash",
-  },
-];
-
 export default function ServicesPreview() {
-  const [trackRef, scrollBy] = useScroller();
+  const items = Array.isArray(services) ? services : [];
 
   return (
-    <section className={styles.wrap} aria-labelledby="services-heading">
-      <div className={styles.headerRow}>
-        <h2 id="services-heading">Services</h2>
-      </div>
+    <section className={styles.previewWrap} aria-labelledby="svc-prev-heading">
+      <header className={styles.previewHeader}>
+        <h2 id="svc-prev-heading" className={styles.previewTitle}>
+          Services
+        </h2>
+        <p className={styles.previewIntro}>
+          Each Service has different packages to suit your needs.
+        </p>
+      </header>
 
-      {/* Mobile: horizontally scrollable track (snap) / Desktop: 3-column grid */}
-      <div className={styles.scroller}>
-        <button
-          type="button"
-          aria-label="Scroll left"
-          className={`${styles.scrollBtn} ${styles.left}`}
-          onClick={() => scrollBy(-320)}
-        >
-          ‹
-        </button>
+      <ul className={styles.grid} role="list">
+        {items.map((svc, idx) => {
+          const firstPkg = svc.packages?.[0];
+          const duration = svc.duration || firstPkg?.duration || "";
+          const edited = editedImagesSummary(svc.deliverables ?? firstPkg?.deliverables);
+          const meta = [duration, edited].filter(Boolean).join(" • ");
+          const price = svc.price || firstPkg?.price || "—";
 
-        <ul
-          ref={trackRef}
-          className={styles.grid}
-          aria-label="Service cards"
-        >
-          {items.map((it) => (
-            <li key={it.slug} className={styles.card}>
+          return (
+            <li key={svc.slug} className={styles.card}>
+              {/* Media */}
               <div className={styles.figure}>
                 <Image
-                  src={it.img}
-                  alt={it.alt}
+                  src={svc.img}
+                  alt={svc.alt}
                   fill
-                  sizes="(max-width: 720px) 85vw, (max-width: 1024px) 45vw, 33vw"
+                  priority={idx < 2}
+                  sizes="(max-width: 720px) 100vw, (max-width: 1200px) 50vw, 20vw"
                   className={styles.img}
-                  priority
                 />
               </div>
+
+              {/* Text */}
               <div className={styles.body}>
-                <h3 className={styles.title}>{it.title}</h3>
-                <p className={styles.blurb}>{it.blurb}</p>
-                <span className={styles.price}>{it.price}</span>
+                <h3 className={styles.title}>{svc.title}</h3>
+                {meta && <p className={styles.meta}>{meta}</p>}
+                <p className={styles.price}>{price}</p>
               </div>
             </li>
-          ))}
-        </ul>
+          );
+        })}
+      </ul>
 
-        <button
-          type="button"
-          aria-label="Scroll right"
-          className={`${styles.scrollBtn} ${styles.right}`}
-          onClick={() => scrollBy(320)}
-        >
-          ›
-        </button>
-      </div>
-
+      {/* Footer CTAs (centered) */}
       <div className={styles.ctaRow}>
-        <Link href="/contact" className={styles.cta}>
+        <Link
+          href="https://calendly.com/YOUR-CALENDLY-USERNAME" // ← replace with your Calendly link
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${styles.btn} ${styles.btnPrimary}`}
+        >
           Book your session
         </Link>
-        <Link href="/services" className={styles.secondary}>
-          See more →
+        <Link href="/services" className={`${styles.btn} ${styles.btnSecondary}`}>
+          View Services
         </Link>
       </div>
     </section>

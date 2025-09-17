@@ -1,19 +1,30 @@
-/* =======================================
-   Hero Section (consumes globals)
-   - Desktop: rotating cross-fade slideshow
+/* ==========================================================================
+   Home.module.css
+   - Desktop: cross-fade slideshow
    - Mobile: single static hero image
-   ======================================= */
+   - Uses global tokens from globals.css
+   ========================================================================== */
 
+/* Custom display font (put files under /public/fonts) */
 @font-face {
-  font-family: 'LoveScript';
-  src: url('/fonts/Love_script.ttf') format('truetype'),
-    url('/fonts/Love_script.otf') format('opentype');
-  font-weight: lighter;
+  font-family: "LoveScript";
+  src:
+    url("/fonts/Love_script.ttf") format("truetype"),
+    url("/fonts/Love_script.otf") format("opentype");
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
+  /* prevents FOIT */
 }
 
+/* =======================================
+   Hero
+   ======================================= */
+
 .hero {
-  --hero-ink: var(--bg-main);
+  /* Local tokens for this section */
+  --hero-ink: #ffffff;
+  /* text on image (high contrast) */
   --hero-cta-bg: var(--btn-primary);
   --hero-cta-hover: var(--btn-hover);
   --hero-overlay: rgba(0, 0, 0, 0.38);
@@ -23,7 +34,7 @@
   overflow: hidden;
 }
 
-/* Wrapper keeps layout stable (desktop hero ~2:1) */
+/* Wrapper keeps layout stable (16:9 desktop) */
 .heroImage {
   position: relative;
   margin: 0 auto;
@@ -32,7 +43,7 @@
   overflow: hidden;
 }
 
-/* Slides: make fades longer/softer */
+/* Slides (Next/Image with fill) */
 .slide {
   opacity: 0;
   transform: scale(1.02);
@@ -40,7 +51,7 @@
     opacity 1400ms ease-in-out,
     transform 3200ms cubic-bezier(.22, .61, .36, 1);
   z-index: 1;
-  /* base */
+  /* stacked beneath active */
 }
 
 .isActive {
@@ -56,7 +67,7 @@
   height: auto;
 }
 
-/* Dark overlay for text legibility */
+/* Dark overlay for legibility */
 .shade {
   position: absolute;
   inset: 0;
@@ -70,13 +81,13 @@
   z-index: 5;
 }
 
-/* Text/CTA centered */
+/* Copy + CTAs */
 .heroOverlay {
   position: absolute;
   inset: 0;
+  top: 32.5%;
   display: flex;
   flex-direction: column;
-  top: 32.5%;
   align-items: center;
   text-align: center;
   gap: 20px;
@@ -85,7 +96,7 @@
 }
 
 .heroOverlay h1 {
-  font-family: 'LoveScript', cursive;
+  font-family: "LoveScript", cursive;
   font-size: clamp(1.8rem, 6vw, 4rem);
   margin: 0;
   letter-spacing: 0.02em;
@@ -100,7 +111,7 @@
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
 }
 
-/* CTAs */
+/* Buttons */
 .heroActions {
   display: flex;
   gap: 16px;
@@ -108,38 +119,71 @@
   justify-content: center;
 }
 
-.heroButton {
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 28px;
+  gap: 0.5rem;
+
+  padding: 1rem 1.25rem;
   border-radius: 999px;
-  font-size: 1.05rem;
   font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
   text-decoration: none;
-  background: var(--hero-cta-bg);
-  color: var(--bg-main);
+
   border: 1px solid transparent;
+  cursor: pointer;
   transition:
     background-color .2s ease,
-    transform .12s ease,
     color .2s ease,
+    transform .08s ease-in-out,
     box-shadow .2s ease;
+}
+
+/* Primary (filled) */
+.btnPrimary {
+  background: var(--svc-cta, var(--btn-primary));
+  color: var(--bg-main);
+  border-color: transparent;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
 
-.heroButton:hover {
-  background: var(--hero-cta-hover);
+.btnPrimary:hover {
+  background: var(--svc-cta-hover, var(--btn-hover));
   color: var(--bg-main);
   transform: translateY(-1px);
 }
 
-.heroButton:focus-visible {
-  outline: 2px solid var(--hero-cta-hover);
+/* Secondary (ghost) */
+.btnSecondary {
+  background: var(--bg-main);
+  color: var(--text-main);
+  border-color: currentColor;
+}
+
+.btnSecondary:hover {
+  background: var(--bg-main);
+  transform: translateY(-1px);
+}
+
+/* Focus + disabled states */
+.btn:focus-visible {
+  outline: 2px solid var(--btn-hover);
   outline-offset: 3px;
 }
 
-/* Mobile rules */
+.btn[aria-disabled="true"],
+.btn:disabled {
+  opacity: .6;
+  pointer-events: none;
+}
+
+/* =======================================
+   Responsive
+   ======================================= */
+
+/* Mobile rules (<=600px) */
 @media (max-width: 600px) {
   .heroImage {
     aspect-ratio: auto;
@@ -153,23 +197,20 @@
     display: none;
   }
 
-  /* hide desktop slideshow on mobile */
+  /* hide desktop slideshow */
 }
 
-/* Reduced Motion */
+/* =======================================
+   Reduced Motion
+   ======================================= */
 @media (prefers-reduced-motion: reduce) {
   .slide {
     transition: none;
     transform: none;
   }
 
-  .heroButton {
+  .btnPrimary,
+  .btnSecondary {
     transition: none;
-  }
-}
-
-@media (max-width: 900px) {
-  .desktopOnly {
-    display: none;
   }
 }

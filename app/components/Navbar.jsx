@@ -1,45 +1,51 @@
 "use client";
 
-/**
- * Navbar
- * - Desktop (>=900px): centered links only (no logo)
- * - Mobile (<900px): logo on the left, hamburger on the right, full-screen drawer
- * - Accessibility: skip link, aria-current on active link, Esc to close drawer
- */
-
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import styles from "../styles/Navbar.module.css";
 
-const leftLinks = [
+/* --------------------------
+ *  Configure Nav Structure
+ * -------------------------- */
+const NAV_LEFT = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/portfolio", label: "Portfolio" },
 ];
 
-const rightLinks = [
-  { href: "/gallery", label: "Gallery" },
+const NAV_RIGHT = [
+  { href: "/booking", label: "Booking" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
 function isActive(pathname, href) {
   if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(href + "/");
+  return pathname === href || (pathname.startsWith(href) && pathname[href.length] === "/");
 }
 
+/** Row of links with active state. */
 function NavLinks({ items, pathname, onNavigate }) {
   return (
-    <div className={styles.group}>
-      {items.map(({ href, label }) => {
+    <div className={styles.navGroup}>
+      {items.map(({ href, label, variant }) => {
         const active = isActive(pathname, href);
+        const isCta = variant === "cta";
+        const className = [
+          styles.navLink,
+          active && styles.isActive,
+          isCta && styles.navLinkCta,
+        ]
+          .filter(Boolean)
+          .join(" ");
+
         return (
           <Link
             key={href}
             href={href}
-            className={`${styles.link} ${active ? styles.active : ""}`}
+            className={className}
             aria-current={active ? "page" : undefined}
             onClick={onNavigate}
           >
@@ -55,11 +61,14 @@ export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const drawerRef = useRef(null);
 
-  // Close menu on route change
-  useEffect(() => { setOpen(false); }, [pathname]);
+  // Close drawer on route change
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
-  // Scrolled state for styling
+  // Shadow/elevation after small scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     onScroll();
@@ -77,6 +86,13 @@ export default function Navbar() {
       body.style.overflow = "hidden";
       const scrollBarW = window.innerWidth - html.clientWidth;
       if (scrollBarW > 0) html.style.paddingRight = `${scrollBarW}px`;
+
+      // Send focus into the drawer for keyboard users
+      queueMicrotask(() => {
+        const firstFocusable =
+          drawerRef.current?.querySelector("a, button, [tabindex]:not([tabindex='-1'])");
+        firstFocusable?.focus();
+      });
     } else {
       html.style.overflow = "";
       html.style.paddingRight = "";
@@ -92,39 +108,51 @@ export default function Navbar() {
 
   const toggle = useCallback(() => setOpen((p) => !p), []);
   const closeMenu = useCallback(() => setOpen(false), []);
-  const onKeyDown = useCallback((e) => { if (e.key === "Escape") setOpen(false); }, []);
+  const onKeyDown = useCallback((e) => {
+    if (e.key === "Escape") setOpen(false);
+  }, []);
+
+  const navClass = [styles.nav, scrolled && styles.navScrolled].filter(Boolean).join(" ");
+  const leftBlockClass = [styles.desktopOnly, styles.centerBlock].join(" ");
+  const rightBlockClass = leftBlockClass;
 
   return (
     <>
       {/* Skip link for keyboard users */}
-      <a href="#main-content" className={styles.skip}>Skip to content</a>
+      <a href="#main-content" className={styles.skipLink}>
+        Skip to content
+      </a>
 
-      <header className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
-        <div className={styles.inner}>
-          {/* Desktop: centered links only */}
-          <nav className={`${styles.desktopOnly} ${styles.center}`} aria-label="Primary">
-            <NavLinks items={[...leftLinks]} pathname={pathname} />
+      <header className={navClass}>
+        <div className={styles.navInner}>
+          {/* Desktop */}
+          <nav className={leftBlockClass} aria-label="Primary">
+            <NavLinks items={NAV_LEFT} pathname={pathname} />
           </nav>
 
-          {/* Logo */}
-          <Link href="/" className={styles.logoWrap} aria-label="Home">
+          {/* Mobile-only */}
+          <Link
+            href="/"
+            className={[styles.logoWrap, styles.mobileOnly].join(" ")}
+            aria-label="Home"
+          >
             <Image
-              src="/images/snp_logo.svg"
+              src="/images/snp_banner.png"
               alt="Shea Nicole Photography"
-              width={500}
-              height={500}
+              width={180}
+              height={48}
               className={styles.logo}
               priority
             />
           </Link>
 
-          <nav className={`${styles.desktopOnly} ${styles.center}`} aria-label="Primary">
-            <NavLinks items={[...rightLinks]} pathname={pathname} />
+          <nav className={rightBlockClass} aria-label="Primary">
+            <NavLinks items={NAV_RIGHT} pathname={pathname} />
           </nav>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu toggle (hamburger → X) */}
           <button
-            className={styles.menuBtn}
+            className={[styles.menuBtn, styles.mobileOnly].join(" ")}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="nav-drawer"
@@ -138,25 +166,31 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Backdrop & Drawer overlay */}
+      {/* Backdrop (starts below header) */}
       <div
-        className={`${styles.backdrop} ${open ? styles.backdropOpen : ""}`}
+        className={[styles.backdrop, open && styles.backdropOpen].filter(Boolean).join(" ")}
         onClick={closeMenu}
       />
 
+      {/* Mobile Drawer */}
       <nav
         id="nav-drawer"
-        className={`${styles.drawer} ${open ? styles.drawerOpen : ""}`}
-        aria-label="Mobile"
+        ref={drawerRef}
+        className={[styles.drawer, open && styles.drawerOpen].filter(Boolean).join(" ")}
+        aria-label="Mobile Navigation"
         role="dialog"
         aria-modal="true"
         onKeyDown={onKeyDown}
       >
         <div className={styles.drawerContent}>
-          <NavLinks items={[...leftLinks, ...rightLinks]} pathname={pathname} onNavigate={closeMenu} />
+          <NavLinks
+            items={[...NAV_LEFT, ...NAV_RIGHT]}
+            pathname={pathname}
+            onNavigate={closeMenu}
+          />
 
-          {/* Social icons (mobile drawer) */}
-          <div className={styles.socials}>
+          {/* Socials (mobile drawer bottom) */}
+          <div className={styles.drawerSocials}>
             <a
               href="https://instagram.com/shea_nicole_photography"
               target="_blank"

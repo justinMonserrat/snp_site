@@ -1,0 +1,209 @@
+/* Booking.module.css
+   Goal:
+   - Everything centered and comfortable on all screens
+   - Content takes up most of the screen (fluid, not cramped)
+   - Fix booking iframe appearing “zoomed in” (force 1:1 scale and full width/height)
+   - Prevent horizontal scroll on mobile
+   - Vanilla CSS (no frameworks)
+*/
+
+/* --------- Layout shell --------- */
+.wrap {
+    width: min(92vw, 1280px);
+    max-width: 100%;
+    /* don’t exceed screen */
+    margin: 0 auto;
+    padding: clamp(1rem, 3vw, 2.5rem) 0 clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+    overflow-x: hidden;
+    /* block horizontal spill */
+}
+
+.header {
+    margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.kicker {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.25rem;
+    opacity: 0.85;
+}
+
+.title {
+    font-weight: 900;
+    font-size: clamp(1.9rem, 3vw + 1rem, 3rem);
+    line-height: 1.15;
+    margin: 0 0 0.5rem;
+}
+
+.lead {
+    margin: 0 auto;
+    max-width: 70ch;
+    opacity: 0.9;
+}
+
+.link {
+    text-decoration: underline;
+}
+
+/* --------- Mini Events notice --------- */
+.notice {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+
+    width: min(95vw, 1100px);
+    max-width: 100%;
+    /* prevent overflow */
+    margin: clamp(1rem, 2.5vw, 1.5rem) auto;
+    padding: clamp(0.9rem, 2.5vw, 1.25rem);
+}
+
+.noticeTitle {
+    margin: 0 0 0.5rem;
+    font-weight: 800;
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.noticeList {
+    margin: 0 auto 1rem;
+    padding: 0;
+    list-style: none;
+    /* no bullets */
+    text-align: center;
+}
+
+
+
+/* --------- Actions (buttons) --------- */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    padding: clamp(0.8rem, 2vw, 1rem) clamp(1rem, 2.2vw, 1.25rem);
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: clamp(0.98rem, 1vw, 1.05rem);
+    line-height: 1;
+    text-decoration: none;
+
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition:
+        background-color .2s ease,
+        color .2s ease,
+        transform .08s ease-in-out,
+        box-shadow .2s ease;
+}
+
+.btnPrimary {
+    background: var(--svc-cta, var(--btn-primary, #111));
+    color: var(--bg-main, #fff);
+    border-color: transparent;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.btnPrimary:hover {
+    background: var(--svc-cta-hover, var(--btn-hover, #222));
+    color: var(--bg-main, #fff);
+    transform: translateY(-1px);
+}
+
+.btnSecondary {
+    background: var(--bg-main, #fff);
+    color: var(--text-main, #111);
+    border-color: currentColor;
+}
+
+.btnSecondary:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+
+/* --------- Embed section --------- */
+.embedWrap {
+    width: min(96vw, 1280px);
+    max-width: 100%;
+    /* prevent iframe from pushing wider */
+    margin: clamp(1rem, 2.5vw, 1.5rem) auto 0;
+    overflow-x: hidden;
+    /* guard against scroll */
+}
+
+.embedWrap iframe {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    /* critical for mobile */
+    height: min(86vh, 1000px) !important;
+    border: 0 !important;
+    border-radius: 14px;
+
+    transform: none !important;
+    transform-origin: 50% 0 !important;
+    zoom: 1;
+    -ms-zoom: 1;
+    -webkit-text-size-adjust: 100%;
+}
+
+.helperLink {
+    margin: 0.6rem 0 0;
+    opacity: 0.85;
+    text-align: center;
+}
+
+/* --------- Responsive polish --------- */
+@media (max-width: 719px) {
+    .wrap {
+        width: 100%;
+        padding: 1.25rem 1rem 2rem;
+    }
+
+    .notice {
+        width: 100%;
+    }
+
+    .actions {
+        gap: 0.55rem;
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .embedWrap iframe {
+        height: 78vh !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .wrap {
+        width: min(90vw, 1280px);
+    }
+
+    .notice {
+        width: min(92vw, 1100px);
+    }
+
+    .embedWrap {
+        width: min(92vw, 1280px);
+    }
+
+    .embedWrap iframe {
+        height: 82vh !important;
+    }
+}

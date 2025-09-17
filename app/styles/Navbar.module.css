@@ -1,106 +1,135 @@
+/* ==========================================================================
+   Navbar.module.css
+   - Uses global tokens from globals.css (no :root here — CSS Modules are scoped)
+   - Mobile breakpoint: 900px
+   ========================================================================== */
+
 /* =======================================
-   Core Nav Bar
-======================================= */
+   Core Header
+   ======================================= */
+
 .nav {
   position: sticky;
+  padding-top: 10px;
   top: 0;
   z-index: 1000;
-  /* header sits below the overlay (which is 2000+) */
-  background: rgb(255, 255, 255);
-  border-bottom: 1px solid #333D29;
-  transition: background .2s ease, box-shadow .2s ease, border-color .2s ease;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  transition:
+    background var(--fast) var(--easing),
+    box-shadow var(--fast) var(--easing),
+    border-color var(--fast) var(--easing);
 }
 
-.inner {
-  max-width: 1200px;
+.navScrolled {
+  /* Subtle elevation after scroll */
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+
+.navInner {
+  max-width: var(--content-max);
   margin: 0 auto;
   padding: 0 12px 12px 12px;
+  min-height: var(--header-h);
+
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   /* left | center | right */
   grid-template-areas: "left center right";
   align-items: center;
   gap: 16px;
-  min-height: 70px;
-  /* keep in sync with overlay top offsets */
 }
 
-.left {
-  grid-area: left;
-  justify-self: start;
+/* Desktop-only halves that center the nav groups */
+.centerBlock {
+  justify-self: center;
 }
 
-.right {
-  grid-area: right;
-  justify-self: end;
+/* Utility visibility */
+.desktopOnly {
+  display: block;
+}
+
+.mobileOnly {
+  display: none;
 }
 
 /* =======================================
-   Links (desktop + base styles)
-======================================= */
-.group {
+   Links (Desktop + Base)
+   ======================================= */
+
+.navGroup {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 28px;
 }
 
-.link {
+.navLink {
+  position: relative;
+  display: inline-block;
+  padding: 8px 2px;
+
+  color: var(--nav-ink);
+  text-decoration: none;
+
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 14px;
-  color: #333D29;
-  text-decoration: none;
-  position: relative;
-  padding: 8px 2px;
-  transition: opacity .2s ease, color .2s ease;
+  font-size: var(--fs-sm);
+
+  transition:
+    opacity var(--fast) var(--easing),
+    color var(--fast) var(--easing),
+    background var(--fast) var(--easing),
+    border-color var(--fast) var(--easing);
 }
 
-.link:hover {
-  opacity: .7;
+.navLink:hover {
+  opacity: 0.7;
 }
 
-.link:focus-visible {
-  outline: 2px solid #333D29;
+.navLink:focus-visible {
+  outline: 2px solid var(--nav-accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
-/* underline for active link */
-.active::after {
+/* Active underline */
+.isActive::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: -6px;
   height: 1px;
-  background: #333D29;
+  background: var(--nav-accent);
 }
 
 /* =======================================
-   Logo
-======================================= */
+   Logo (Mobile Only)
+   ======================================= */
+
 .logoWrap {
-  grid-area: center;
-  /* centered on desktop, moved left on mobile via media query */
   display: inline-flex;
   align-items: center;
-  justify-self: center;
+  justify-self: start;
 }
 
 .logo {
-  height: auto;
   width: auto;
-  max-height: 100px;
+  height: auto;
+  max-height: 80px;
+  /* Mobile default; desktop hides logo */
 }
 
 /* =======================================
-   Mobile Menu Button (hamburger → X)
-======================================= */
+   Mobile Menu Button (Hamburger → X)
+   ======================================= */
+
 .menuBtn {
   position: relative;
   display: none;
-  /* shown at <900px */
+  /* shown at <900px via media query */
   width: 44px;
   height: 44px;
   border: 0;
@@ -114,7 +143,7 @@
 }
 
 .menuBtn:focus-visible {
-  outline: 2px solid #333D29;
+  outline: 2px solid var(--nav-accent);
   outline-offset: 3px;
   border-radius: 12px;
 }
@@ -122,11 +151,13 @@
 .menuBar {
   width: 20px;
   height: 2px;
-  background: #333D29;
+  background: var(--nav-ink);
   border-radius: 2px;
   display: block;
-  transition: transform .2s ease, opacity .2s ease;
   transform-origin: center;
+  transition:
+    transform var(--fast) var(--easing),
+    opacity var(--fast) var(--easing);
 }
 
 /* Morph to X when open */
@@ -144,47 +175,47 @@
 }
 
 /* =======================================
-   Mobile Overlay (backdrop + drawer)
-   (Overlay starts BELOW the header so logo/X stay visible)
-======================================= */
+   Mobile Overlay (Backdrop + Drawer)
+   Drawer starts below sticky header so header controls remain visible.
+   ======================================= */
+
 .backdrop {
   position: fixed;
-  top: 70px;
+  top: var(--header-h);
   left: 0;
   right: 0;
   bottom: 0;
-  background: #333D29;
-  /* brand tint for dim */
+  background: var(--nav-backdrop);
   opacity: 0;
   pointer-events: none;
-  transition: opacity .2s ease;
+  transition: opacity var(--fast) var(--easing);
   z-index: 1990;
-  /* under drawer, above content */
+  /* under drawer, above page content */
 }
 
 .backdropOpen {
   opacity: 0.28;
-  /* subtle dim */
   pointer-events: auto;
 }
 
 .drawer {
   position: fixed;
-  top: 70px;
+  top: var(--header-h);
   left: 0;
   right: 0;
   bottom: 0;
-  /* fill viewport under header */
-  background: #ffffff;
+  background: var(--nav-drawer-bg);
   z-index: 2000;
-  /* above header content area */
+  /* above backdrop */
   display: none;
   transform: translateY(-6px);
   opacity: 0;
   pointer-events: none;
-  transition: transform .2s ease, opacity .2s ease;
+  transition:
+    transform var(--fast) var(--easing),
+    opacity var(--fast) var(--easing);
   overscroll-behavior: contain;
-  /* stop scroll chaining to page */
+  /* prevent scroll chaining to page */
 }
 
 .drawerOpen {
@@ -194,7 +225,6 @@
   opacity: 1;
 }
 
-/* Drawer content: links at top, socials pinned bottom */
 .drawerContent {
   height: 100%;
   display: flex;
@@ -204,19 +234,17 @@
   padding: 24px 20px;
 }
 
-/* Stack links vertically, full-width; this section scrolls if needed */
-.drawer .group {
-  display: flex;
+/* Vertical stack for mobile links, own the scroll area */
+.drawer .navGroup {
   flex-direction: column;
   gap: 16px;
   flex: 1 1 auto;
   overflow: auto;
-  /* own the scroll */
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
 
-.drawer .link {
+.drawer .navLink {
   display: block;
   width: 100%;
   text-align: center;
@@ -226,15 +254,13 @@
   border-radius: 8px;
 }
 
-.drawer .active::after {
+.drawer .isActive::after {
   bottom: -2px;
   height: 2px;
 }
 
-/* =======================================
-   Drawer Socials (mobile only)
-======================================= */
-.socials {
+/* Drawer socials pinned bottom */
+.drawerSocials {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -242,21 +268,11 @@
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.socialLink {
-  font-size: 16px;
-  color: #333D29;
-  text-decoration: none;
-  transition: opacity .2s ease;
-}
-
-.socialLink:hover {
-  opacity: 0.7;
-}
-
 /* =======================================
-   Skip Link (a11y)
-======================================= */
-.skip {
+   Skip Link (A11y)
+   ======================================= */
+
+.skipLink {
   position: absolute;
   left: -9999px;
   top: auto;
@@ -265,7 +281,7 @@
   overflow: hidden;
 }
 
-.skip:focus {
+.skipLink:focus {
   left: 16px;
   top: 8px;
   width: auto;
@@ -280,9 +296,10 @@
 
 /* =======================================
    Responsive
-======================================= */
+   ======================================= */
+
 @media (max-width: 900px) {
-  .inner {
+  .navInner {
     grid-template-columns: auto 1fr auto;
     /* logo | spacer | button */
     grid-template-areas: "logo spacer button";
@@ -293,32 +310,30 @@
     display: none;
   }
 
-  .logoWrap {
-    grid-area: logo;
-    justify-self: start;
-  }
-
-  /* logo left */
-  .menuBtn {
-    grid-area: button;
+  .mobileOnly {
     display: inline-flex;
-    justify-self: end;
   }
 
-  /* button right */
   .logo {
-    max-height: 48px;
+    max-height: 80px;
   }
+
+  .menuBtn {
+    justify-self: end;
+    display: inline-flex;
+  }
+
+  /* Drawer defines its own layout; desktop spacing not needed here. */
 }
 
 @media (max-width: 680px) {
-  .group {
+  .navGroup {
     gap: 14px;
   }
 
-  .link {
-    font-size: 13px;
-    letter-spacing: .07em;
+  .navLink {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.07em;
   }
 
   .logo {
@@ -328,14 +343,14 @@
 
 /* =======================================
    Reduced Motion
-======================================= */
+   ======================================= */
 @media (prefers-reduced-motion: reduce) {
 
   .nav,
   .drawer,
-  .link,
+  .navLink,
   .backdrop,
   .menuBar {
-    transition: none;
+    transition: none !important;
   }
 }

@@ -1,26 +1,35 @@
-/* ==============================
-   Global Styles & Variables
-   ============================== */
+/* ==========================================================================
+   Global Styles & Design Tokens
+   Next.js (app router) • Vanilla CSS
+   --------------------------------------------------------------------------
+   - Keep all site-wide tokens here (colors, spacing, motion, typography).
+   - Component CSS Modules consume these via var(--token).
+   ========================================================================== */
 
-/* Brand Palette */
+/* ------------------------------
+   Design Tokens
+   ------------------------------ */
 :root {
+  /* Brand Palette */
   --color-green-dark: #3A5A40;
   --color-green-sage: #A3B18A;
   --color-jet-black: #0A0A0A;
   --color-beige-light: #F4F1ED;
+  --color-white: #FFFFFF;
 
-  /* Semantic Roles */
+  /* Semantic Roles (light) */
   --bg-main: var(--color-beige-light);
+  --surface: var(--color-white);
   --text-main: var(--color-jet-black);
-  --text-muted: var(--color-green-dark);
+  --text-muted: #4b4b4b;
+  --link-color: var(--color-jet-black);
+
+  /* Actions */
   --btn-primary: var(--color-jet-black);
   --btn-hover: var(--color-green-dark);
-  --link-color: var(--color-jet-black);
-}
 
-/* Nav Variables */
-:root {
-  --nav-bg: var(--bg-main);
+  /* Navigation (consumed by Navbar.module.css) */
+  --nav-bg: var(--surface);
   --nav-ink: var(--text-main);
   --nav-ink-muted: var(--text-muted);
   --nav-accent: var(--text-main);
@@ -28,48 +37,185 @@
   --nav-border: rgba(0, 0, 0, 0.08);
   --nav-backdrop: var(--color-green-dark);
   --nav-drawer-bg: var(--bg-main);
+
+  /* Layout */
+  --content-max: 1200px;
+  --container-pad-x: 16px;
+  --header-h: 70px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --fs-xs: 12px;
+  --fs-sm: 14px;
+  --fs-md: 16px;
+  --fs-lg: 18px;
+  --fs-xl: clamp(20px, 2.4vw, 28px);
+  --fs-2xl: clamp(28px, 4.2vw, 40px);
+
+  /* Spacing Scale (t-shirt sizes) */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Motion */
+  --easing: ease;
+  --fast: .18s;
+  --norm: .28s;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.09);
 }
 
-/* Base Reset */
+/* ------------------------------
+   Base Reset / Normalization
+   ------------------------------ */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
-  font-family: 'Ubuntu', serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
 
-/* Body Defaults */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background-color: var(--bg-main);
+  margin: 0;
   color: var(--text-main);
+  background-color: var(--bg-main);
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
 }
 
 /* Links */
 a {
   color: var(--link-color);
   text-decoration: none;
+  transition: color var(--fast) var(--easing), opacity var(--fast) var(--easing);
 }
 
 a:hover {
   color: var(--btn-hover);
 }
 
-/* Dark Mode (system preference) */
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* Focus ring (accessible + consistent) */
+:focus-visible {
+  outline: 2px solid var(--btn-hover);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Selection */
+::selection {
+  background: rgba(58, 90, 64, 0.2);
+  /* green-dark @20% */
+}
+
+/* ------------------------------
+   Layout Utilities
+   ------------------------------ */
+.container {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad-x);
+}
+
+.section {
+  padding-block: var(--space-10);
+}
+
+.stack>*+* {
+  margin-top: var(--space-4);
+}
+
+/* Visually hidden (for a11y text) */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Button base (optional utility; components can extend) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--btn-primary);
+  background: var(--btn-primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background var(--fast) var(--easing), border-color var(--fast) var(--easing), opacity var(--fast) var(--easing);
+}
+
+.btn:hover {
+  background: var(--btn-hover);
+  border-color: var(--btn-hover);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--btn-primary);
+}
+
+/* Card surface helper */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--nav-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ------------------------------
+   App Structure Helpers
+   ------------------------------ */
+#main-content {
+  display: block;
+  min-height: calc(100vh - var(--header-h));
 }
