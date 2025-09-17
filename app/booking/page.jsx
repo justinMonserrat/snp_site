@@ -40,14 +40,15 @@ export default function BookPage() {
             </section>
 
             {/* Embed */}
-            <section className={styles.embedWrap} aria-label="Live booking">
-                <BookingEmbed bookingUrl={BOOKING_URL} />
-            </section>
             <p className={`${styles.btn} ${styles.btnSecondary}`}>
                 <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
                     Open booking in a new tab
                 </a>
             </p>
+            <section className={styles.embedWrap} aria-label="Live booking">
+                <BookingEmbed bookingUrl={BOOKING_URL} />
+            </section>
+
         </main>
     );
 }
