@@ -17,8 +17,6 @@ export default function BookingEmbed({ bookingUrl }) {
                 allow="payment *; publickey-credentials-get *"
                 // React needs the attribute in lowercase; passing via spread avoids warnings
                 {...{ allowpaymentrequest: "" }}
-                // Keep sandbox; if checkout still fails, remove sandbox entirely
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-top-navigation-by-user-activation allow-popups-to-escape-sandbox"
             />
         </>
     );
