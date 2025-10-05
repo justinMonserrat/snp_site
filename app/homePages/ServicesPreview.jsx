@@ -70,7 +70,7 @@ export default function ServicesPreview() {
       {/* Footer CTAs (centered) */}
       <div className={styles.ctaRow}>
         <Link
-          href="https://calendly.com/YOUR-CALENDLY-USERNAME" // ← replace with your Calendly link
+          href="https://clients.sheanicolephotography.com/booking/"
           target="_blank"
           rel="noopener noreferrer"
           className={`${styles.btn} ${styles.btnPrimary}`}

@@ -113,7 +113,7 @@ export default function HomePage() {
             {/* HERO CTAs */}
             <div className={styles.heroActions}>
               <Link
-                href="https://calendly.com/sheanicolephotography"
+                href="https://clients.sheanicolephotography.com/booking/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${styles.btn} ${styles.btnPrimary}`}

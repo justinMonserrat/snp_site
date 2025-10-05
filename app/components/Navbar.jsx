@@ -137,7 +137,7 @@ export default function Navbar() {
             aria-label="Home"
           >
             <Image
-              src="/images/snp_banner.png"
+              src="/images/snp_logo.png"
               alt="Shea Nicole Photography"
               width={180}
               height={48}

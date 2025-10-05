@@ -41,7 +41,7 @@ export default function BookPage() {
 
             {/* Embed */}
             <p className={`${styles.btn} ${styles.btnSecondary}`}>
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                <a href="https://clients.sheanicolephotography.com/booking/" target="_blank" rel="noopener noreferrer">
                     Open booking in a new tab
                 </a>
             </p>
